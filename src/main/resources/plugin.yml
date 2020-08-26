@@ -1,0 +1,6 @@
+name: YeasyBasics
+version: 1.0.0
+main: com.gmail.perhapsitisyeazz.yeasybasics.YeasyBasics
+api-version: '1.16'
+description: 'Friend plugin'
+author: 'YeaZz_'
