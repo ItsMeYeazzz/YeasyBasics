@@ -4,3 +4,9 @@ main: com.gmail.perhapsitisyeazz.yeasybasics.YeasyBasics
 api-version: '1.16'
 description: 'Friend plugin'
 author: 'YeaZz_'
+commands:
+  gamemode:
+    description: Allows you to change your gamemode
+    permission: gamemode
+    permission-message: You do not have the permission to use this command.
+    usage: /<command>
