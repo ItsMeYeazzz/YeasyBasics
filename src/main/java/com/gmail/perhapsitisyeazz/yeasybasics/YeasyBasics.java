@@ -5,20 +5,11 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class YeasyBasics extends JavaPlugin {
 
-    private static YeasyBasics instance;
-
-    public static YeasyBasics getInstance() {
-        return instance;
-    }
-
     @Override
     public void onEnable() {
-        instance = this;
-        getCommand("gamemode").setExecutor(new GamemodeCmd(this));
+        this.getCommand("gamemode").setExecutor(new GamemodeCmd());
     }
 
     @Override
-    public void onDisable() {
-        instance = null;
-    }
+    public void onDisable() {}
 }

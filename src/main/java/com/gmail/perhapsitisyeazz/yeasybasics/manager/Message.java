@@ -1,0 +1,45 @@
+package com.gmail.perhapsitisyeazz.yeasybasics.manager;
+
+import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.chat.*;
+import org.bukkit.command.CommandSender;
+
+import java.util.Arrays;
+import java.util.List;
+
+public class Message {
+
+    private final List<String> subCmd = Arrays.asList("survival", "creative", "adventure", "spectator");
+
+    private final List<String> descCmd = Arrays.asList(
+            "Survival gamemode",
+            "Creative gamemode",
+            "Adventure gamemode",
+            "Spectator gamemode"
+    );
+
+    @SuppressWarnings("deprecation")
+    public BaseComponent[] helpMessage(CommandSender sender){
+        ComponentBuilder builder = new ComponentBuilder();
+        builder
+                .append("[").color(ChatColor.DARK_GRAY)
+                .append("Basics").color(ChatColor.DARK_AQUA)
+                .append("]").color(ChatColor.DARK_GRAY)
+                .append(" Correct usage:").color(ChatColor.DARK_GREEN);
+        for (String sub : subCmd) {
+            for (String desc : descCmd) {
+                String arg = sub.split(" ")[0].substring(0, 1).toUpperCase() + sub.split(" ")[0].substring(1);
+                builder
+                        .append("\n» ").color(ChatColor.DARK_AQUA)
+                        .append("/gamemode " + sub).color(ChatColor.GREEN)
+                        .event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, TextComponent.fromLegacyText(
+                                ChatColor.DARK_GREEN + "Command: " + ChatColor.AQUA + arg +
+                                        ChatColor.DARK_GREEN + "\nDescription: " + ChatColor.AQUA + desc +
+                                        ChatColor.DARK_GREEN + "\nUsage: " + ChatColor.AQUA + "gamemode " + sub +
+                                        "\n\n" + ChatColor.GRAY + "Click to execute.")))
+                        .event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "gamemode " + sub));
+            }
+        }
+        return builder.create();
+    }
+}
