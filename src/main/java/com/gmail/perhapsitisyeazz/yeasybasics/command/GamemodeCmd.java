@@ -14,42 +14,42 @@ import org.jetbrains.annotations.NotNull;
 public class GamemodeCmd implements CommandExecutor {
 
     private final Message message = new Message();
+    private final String logo = TextComponent.toLegacyText(message.logo);
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        if (args.length == 0) {
-            sender.sendMessage(message.helpMessage());
-        } else {
-            Player playerArg = Bukkit.getPlayer(args[1]);
-            if (sender instanceof Player) {
-                Player player = (Player) sender;
-                setGamemode(args[0], playerArg != null ? playerArg : player);
-            } else if (playerArg == null) {
+        if (args.length > 0) {
+            GameMode gm;
+            if (match(args[0], "survival", "s", "0")) gm = GameMode.SURVIVAL;
+            else if (match(args[0], "creative", "c", "1")) gm = GameMode.CREATIVE;
+            else if (match(args[0], "adventure", "a", "2")) gm = GameMode.ADVENTURE;
+            else if (match(args[0], "spectator", "s", "3")) gm = GameMode.SPECTATOR;
+            else {
+                if (sender instanceof Player) ((Player) sender).sendActionBar(ChatColor.RED + "Error : Argument 2");
+                else sender.sendMessage(ChatColor.RED + "Error : Argument 2");
                 sender.sendMessage(message.helpMessage());
-            } else {
-                setGamemode(args[0], playerArg);
+                return true;
+            }
+            if (args.length > 1) {
+                Player target = Bukkit.getPlayer(args[1]);
+                if (sender instanceof Player) {
+                    Player player = (Player) sender;
+                    Player finalTarget = target != null ? target : player;
+                    if (finalTarget.getGameMode() != gm) {
+                        finalTarget.sendActionBar(logo + ChatColor.GREEN + finalTarget.getName() + "'s gamemode has been set to survival " + gm.name() + ".");
+                        finalTarget.setGameMode(gm);
+                    } else {
+                        finalTarget.sendActionBar(logo + ChatColor.DARK_GREEN + finalTarget.getName() + " is already in " + gm.name() + ".");
+                    }
+                    return true;
+                } else if (target != null) {
+                    target.setGameMode(gm);
+                    return true;
+                }
             }
         }
+        sender.sendMessage(message.helpMessage());
         return true;
-    }
-
-    private void setGamemode(String arg, Player player) {
-        String logo = TextComponent.toLegacyText(message.logo);
-        GameMode gm;
-        if (match(arg, "survival", "s", "0")) gm = GameMode.SURVIVAL;
-        else if (match(arg, "creative", "c", "1")) gm = GameMode.CREATIVE;
-        else if (match(arg, "adventure", "a", "2")) gm = GameMode.ADVENTURE;
-        else if (match(arg, "spectator", "s", "3")) gm = GameMode.SPECTATOR;
-        else {
-            player.sendActionBar(ChatColor.RED + "Error : Argument 2");
-            return;
-        }
-        if (gm == player.getGameMode()) {
-            player.sendActionBar(logo + ChatColor.DARK_GREEN + "You are already in " + gm.name() + ".");
-        } else {
-            player.setGameMode(gm);
-            player.sendActionBar(logo + ChatColor.GREEN + "Your gamemode has been set to survival " + gm.name() + ".");
-        }
     }
 
     private boolean match(String arg, String... str) {
