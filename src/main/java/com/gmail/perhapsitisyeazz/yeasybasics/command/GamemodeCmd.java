@@ -38,7 +38,7 @@ public class GamemodeCmd implements CommandExecutor {
                     setGamemode(gm, sender, finalTarget);
                     return true;
                 } else if (target != null) {
-                    target.setGameMode(gm);
+                    setGamemode(gm, sender, target);
                     return true;
                 }
             } else if (sender instanceof Player) {
@@ -53,9 +53,13 @@ public class GamemodeCmd implements CommandExecutor {
 
     private void setGamemode(GameMode gm, CommandSender sender, Player target) {
         if (target.getGameMode() != gm) {
-            Player player = (Player) sender;
+            if(sender instanceof Player) {
+                Player player = (Player) sender;
+                if (player != target) target.sendMessage(logo + ChatColor.GREEN + " " + sender.getName() + " has set your gamemode to " + gm.name() + ".");
+            } else {
+                target.sendMessage(logo + ChatColor.GREEN + " " + sender.getName() + " has set your gamemode to " + gm.name() + ".");
+            }
             sender.sendMessage(logo + ChatColor.GREEN + " " + target.getName() + "'s gamemode has been set to " + gm.name() + ".");
-            if(player != target) target.sendMessage(logo + ChatColor.GREEN + " " + sender.getName() + " has set your gamemode to " + gm.name() + ".");
             target.setGameMode(gm);
         } else {
             sender.sendMessage(logo + ChatColor.DARK_GREEN + " " + target.getName() + " is already in " + gm.name() + ".");
