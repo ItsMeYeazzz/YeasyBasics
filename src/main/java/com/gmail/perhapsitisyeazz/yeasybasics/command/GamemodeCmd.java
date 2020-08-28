@@ -35,21 +35,31 @@ public class GamemodeCmd implements CommandExecutor {
                 if (sender instanceof Player) {
                     Player player = (Player) sender;
                     Player finalTarget = target != null ? target : player;
-                    if (finalTarget.getGameMode() != gm) {
-                        finalTarget.sendActionBar(logo + ChatColor.GREEN + finalTarget.getName() + "'s gamemode has been set to survival " + gm.name() + ".");
-                        finalTarget.setGameMode(gm);
-                    } else {
-                        finalTarget.sendActionBar(logo + ChatColor.DARK_GREEN + finalTarget.getName() + " is already in " + gm.name() + ".");
-                    }
+                    setGamemode(gm, finalTarget);
                     return true;
                 } else if (target != null) {
                     target.setGameMode(gm);
+                    return true;
+                }
+            } else {
+                if (sender instanceof Player) {
+                    Player player = (Player) sender;
+                    setGamemode(gm, player);
                     return true;
                 }
             }
         }
         sender.sendMessage(message.helpMessage());
         return true;
+    }
+
+    private void setGamemode(GameMode gm, Player player) {
+        if (player.getGameMode() != gm) {
+            player.sendActionBar(logo + ChatColor.GREEN + " " + player.getName() + "'s gamemode has been set to survival " + gm.name() + ".");
+            player.setGameMode(gm);
+        } else {
+            player.sendActionBar(logo + ChatColor.DARK_GREEN + " " + player.getName() + " is already in " + gm.name() + ".");
+        }
     }
 
     private boolean match(String arg, String... str) {
