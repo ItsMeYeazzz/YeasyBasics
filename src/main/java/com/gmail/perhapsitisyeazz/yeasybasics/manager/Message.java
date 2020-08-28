@@ -2,12 +2,17 @@ package com.gmail.perhapsitisyeazz.yeasybasics.manager;
 
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.*;
-import org.bukkit.command.CommandSender;
 
 import java.util.Arrays;
 import java.util.List;
 
 public class Message {
+
+    public final BaseComponent[] logo = new ComponentBuilder()
+            .append("[").color(ChatColor.DARK_GRAY)
+            .append("Basics").color(ChatColor.DARK_AQUA)
+            .append("]").color(ChatColor.DARK_GRAY)
+            .create();
 
     private final List<String> subCmd = Arrays.asList("survival", "creative", "adventure", "spectator");
 
@@ -19,12 +24,10 @@ public class Message {
     );
 
     @SuppressWarnings("deprecation")
-    public BaseComponent[] helpMessage(CommandSender sender){
+    public BaseComponent[] helpMessage(){
         ComponentBuilder builder = new ComponentBuilder();
         builder
-                .append("[").color(ChatColor.DARK_GRAY)
-                .append("Basics").color(ChatColor.DARK_AQUA)
-                .append("]").color(ChatColor.DARK_GRAY)
+                .append(logo)
                 .append(" Correct usage:").color(ChatColor.DARK_GREEN);
         for (String sub : subCmd) {
             for (String desc : descCmd) {
