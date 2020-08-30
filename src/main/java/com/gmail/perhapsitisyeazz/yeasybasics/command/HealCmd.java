@@ -32,13 +32,13 @@ public class HealCmd implements CommandExecutor {
 			} else if(sender instanceof Player) {
 				Player player = (Player) sender;
 				heal(sender, player);
-				player.sendActionBar(logo + "You have been successfully heal.");
+				player.sendActionBar(logo + ChatColor.GREEN + "You have been successfully heal.");
 			}
 		} else {
 			if(sender instanceof Player) {
 				Player player = (Player) sender;
 				heal(sender, player);
-				player.sendActionBar(logo + "You have been successfully heal.");
+				player.sendActionBar(logo + ChatColor.GREEN + "You have been successfully heal.");
 			} else {
 				sender.sendMessage(logo + ChatColor.RED + "Error : Missing argument.");
 			}
