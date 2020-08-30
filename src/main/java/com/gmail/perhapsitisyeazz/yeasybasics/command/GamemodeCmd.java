@@ -1,6 +1,7 @@
 package com.gmail.perhapsitisyeazz.yeasybasics.command;
 
 import com.gmail.perhapsitisyeazz.yeasybasics.manager.Message;
+import com.gmail.perhapsitisyeazz.yeasybasics.util.Utils;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
@@ -14,6 +15,8 @@ import org.jetbrains.annotations.NotNull;
 public class GamemodeCmd implements CommandExecutor {
 
     private final Message message = new Message();
+    private final Utils utils = new Utils();
+
     private final String logo = TextComponent.toLegacyText(message.logo);
 
     @Override
@@ -25,8 +28,7 @@ public class GamemodeCmd implements CommandExecutor {
             else if (match(args[0], "adventure", "a", "2")) gm = GameMode.ADVENTURE;
             else if (match(args[0], "spectator", "s", "3")) gm = GameMode.SPECTATOR;
             else {
-                if (sender instanceof Player) ((Player) sender).sendActionBar(ChatColor.RED + "Error : Argument 2");
-                else sender.sendMessage(ChatColor.RED + "Error : Argument 2");
+                utils.sendMessage(sender, logo + ChatColor.RED + "Error : Argument 1");
                 sender.sendMessage(message.helpMessage());
                 return true;
             }
@@ -55,15 +57,14 @@ public class GamemodeCmd implements CommandExecutor {
         String gamemode = gm.name().toLowerCase();
         if (target.getGameMode() != gm) {
             if(sender instanceof Player) {
-                Player player = (Player) sender;
-                if (player != target) target.sendMessage(logo + ChatColor.GREEN + " " + sender.getName() + " has set your gamemode to " + gamemode + ".");
+                if (sender != target) ((Player) sender).sendActionBar(logo + ChatColor.GREEN + " " + sender.getName() + " has set your gamemode to " + gamemode + ".");
             } else {
                 target.sendMessage(logo + ChatColor.GREEN + " " + sender.getName() + " has set your gamemode to " + gamemode + ".");
             }
-            sender.sendMessage(logo + ChatColor.GREEN + " " + target.getName() + "'s gamemode has been set to " + gamemode + ".");
+            utils.sendMessage(sender, logo + ChatColor.GREEN + " " + target.getName() + "'s gamemode has been set to " + gamemode + ".");
             target.setGameMode(gm);
         } else {
-            sender.sendMessage(logo + ChatColor.DARK_GREEN + " " + target.getName() + " is already in " + gamemode + ".");
+            utils.sendMessage(sender, logo + ChatColor.DARK_GREEN + " " + target.getName() + " is already in " + gamemode + ".");
         }
     }
 
