@@ -6,9 +6,14 @@ description: 'Friend plugin'
 author: 'YeaZz_'
 commands:
   gamemode:
-    description: Allows you to change your gamemode
+    description: Allows you to change a player's gamemode
     permission: gamemode
     permission-message: You do not have the permission to use this command.
-    usage: /<command>
+    usage: /<command> [string] <player>
     aliases:
       - gm
+  heal:
+    description: Allows you to heal a player
+    permission: heal
+    permission-message: You do not have the permission to use this command.
+    usage: /<command> <player>

@@ -11,7 +11,7 @@ public class Message {
     public final BaseComponent[] logo = new ComponentBuilder()
             .append("[").color(ChatColor.DARK_GRAY)
             .append("Basics").color(ChatColor.DARK_AQUA)
-            .append("]").color(ChatColor.DARK_GRAY)
+            .append("] ").color(ChatColor.DARK_GRAY)
             .create();
 
     private final List<String> subCmd = Arrays.asList("survival", "creative", "adventure", "spectator");
