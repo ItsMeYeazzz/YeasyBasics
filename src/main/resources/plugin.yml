@@ -17,3 +17,8 @@ commands:
     permission: heal
     permission-message: You do not have the permission to use this command.
     usage: /<command> <player>
+  speed:
+    description: Allows you to change your walk/fly speed
+    permission: speed
+    permission-message: You do not have the permission to use this command.
+    usage: /<command> <float>
