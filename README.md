@@ -1,2 +1,2 @@
 # YeasyBasics
-Essentials... not really, just... the same ideas
+Essentials...? not really, just... the same ideas
