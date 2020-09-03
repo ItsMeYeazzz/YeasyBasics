@@ -27,8 +27,8 @@ public class HealCmd implements CommandExecutor {
 			Player target = Bukkit.getPlayer(args[0]);
 			if(target != null && target != sender) {
 				heal(sender, target);
-				utils.sendMessage(sender, logo + ChatColor.GREEN + target.getName() + "has been successfully heal.");
-				target.sendActionBar(logo + ChatColor.GREEN + "You have been successfully heal by " + sender.getName());
+				utils.sendMessage(sender, logo + ChatColor.BLUE + target.getName() + ChatColor.GREEN + "has been successfully heal.");
+				target.sendActionBar(logo + ChatColor.GREEN + "You have been successfully heal by " + ChatColor.BLUE + sender.getName() + ChatColor.GREEN + ".");
 			} else if(sender instanceof Player) {
 				Player player = (Player) sender;
 				heal(sender, player);
@@ -56,7 +56,7 @@ public class HealCmd implements CommandExecutor {
 				player.removePotionEffect(effect.getType());
 			}
 		} else {
-			utils.sendMessage(sender, logo + ChatColor.RED + "Error : " + player.getName() + " is dead.");
+			utils.sendMessage(sender, logo + ChatColor.RED + "Error : " + ChatColor.DARK_PURPLE + player.getName() + ChatColor.RED + " is dead.");
 		}
 	}
 }

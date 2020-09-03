@@ -20,16 +20,34 @@ public class SpeedCmd implements CommandExecutor {
 		if(sender instanceof Player) {
 			Player player = (Player) sender;
 			if(args.length > 0) {
-				float f = Float.parseFloat(args[0]);
-				if(f >= 0 && f <= 10) {
-					if(player.isFlying()) {
-						player.setFlySpeed(f);
+				try {
+					float f = Float.parseFloat(args[0].replace(',', '.'));
+					if (f >= 0f && f <= 10f) {
+						f = f / 10;
+						String str;
+						float speed;
+						if (player.isFlying()) {
+							player.setFlySpeed(f);
+							str = " fly ";
+							speed = player.getFlySpeed();
+						} else {
+							player.setWalkSpeed(f);
+							str = " walk ";
+							speed = player.getWalkSpeed();
+						}
+						if(f != speed) {
+							player.sendActionBar(logo + ChatColor.GREEN + "Your" + ChatColor.BLUE + str + ChatColor.GREEN + "speed has been set to " + ChatColor.BLUE + args[0] + ChatColor.GREEN + ".");
+						} else {
+							player.sendActionBar(logo + ChatColor.DARK_GREEN + "Your" + ChatColor.BLUE + str + ChatColor.GREEN + "speed is already " + ChatColor.BLUE + args[0] + ChatColor.GREEN + ".");
+						}
 					} else {
-						player.setWalkSpeed(f);
+						player.sendActionBar(logo + ChatColor.RED + "Error : Invalid number : '" + ChatColor.DARK_PURPLE + args[0] + ChatColor.RED +"', it must be between 0 and 10.");
 					}
+				} catch (NumberFormatException e) {
+					player.sendActionBar(logo + ChatColor.RED + "Error : Invalid number : '" + ChatColor.DARK_PURPLE + args[0] + "'.");
 				}
 			} else {
-				player.sendActionBar(logo + ChatColor.RED + "Error : Missing integer argument.");
+				player.sendActionBar(logo + ChatColor.RED + "Error : Missing number argument.");
 			}
 		} else {
 			sender.sendMessage(logo + ChatColor.RED + "Error : Player-only command.");

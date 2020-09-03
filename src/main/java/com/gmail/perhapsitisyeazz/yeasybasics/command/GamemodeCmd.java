@@ -28,7 +28,7 @@ public class GamemodeCmd implements CommandExecutor {
             else if (match(args[0], "adventure", "a", "2")) gm = GameMode.ADVENTURE;
             else if (match(args[0], "spectator", "s", "3")) gm = GameMode.SPECTATOR;
             else {
-                utils.sendMessage(sender, logo + ChatColor.RED + "Error : Argument 1");
+                utils.sendMessage(sender, logo + ChatColor.RED + "Error : Invalid argument : '" + ChatColor.DARK_PURPLE + args[0] + ChatColor.RED + "'.");
                 sender.sendMessage(message.helpMessage());
                 return true;
             }
@@ -57,14 +57,16 @@ public class GamemodeCmd implements CommandExecutor {
         String gamemode = gm.name().toLowerCase();
         if (target.getGameMode() != gm) {
             if(sender instanceof Player) {
-                if (sender != target) ((Player) sender).sendActionBar(logo + ChatColor.GREEN + sender.getName() + " has set your gamemode to " + gamemode + ".");
+                if (sender != target) {
+                    ((Player) sender).sendActionBar(logo + ChatColor.BLUE + sender.getName() + ChatColor.GREEN + " has set your gamemode to " + ChatColor.BLUE + gamemode+ChatColor.RED + ".");
+                }
             } else {
-                target.sendMessage(logo + ChatColor.GREEN + sender.getName() + " has set your gamemode to " + gamemode + ".");
+                target.sendMessage(logo + ChatColor.BLUE + sender.getName() + ChatColor.GREEN + " has set your gamemode to " + ChatColor.BLUE + gamemode + ChatColor.GREEN + ".");
             }
-            utils.sendMessage(sender, logo + ChatColor.GREEN + target.getName() + "'s gamemode has been set to " + gamemode + ".");
+            utils.sendMessage(sender, logo + ChatColor.BLUE + target.getName() + ChatColor.GREEN + "'s gamemode has been set to " + ChatColor.GREEN + gamemode + ChatColor.RED + ".");
             target.setGameMode(gm);
         } else {
-            utils.sendMessage(sender, logo + ChatColor.DARK_GREEN + target.getName() + " is already in " + gamemode + ".");
+            utils.sendMessage(sender, logo + ChatColor.DARK_AQUA + target.getName() + ChatColor.DARK_GREEN + " is already in " + ChatColor.DARK_AQUA + gamemode + ChatColor.DARK_GREEN + ".");
         }
     }
 
