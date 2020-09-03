@@ -36,9 +36,9 @@ public class SpeedCmd implements CommandExecutor {
 							speed = player.getWalkSpeed();
 						}
 						if(f != speed) {
-							player.sendActionBar(logo + ChatColor.GREEN + "Your" + ChatColor.BLUE + str + ChatColor.GREEN + "speed has been set to " + ChatColor.BLUE + args[0] + ChatColor.GREEN + ".");
+							player.sendActionBar(logo + ChatColor.GREEN + "Your" + ChatColor.AQUA + str + ChatColor.GREEN + "speed has been set to " + ChatColor.AQUA + args[0] + ChatColor.GREEN + ".");
 						} else {
-							player.sendActionBar(logo + ChatColor.DARK_GREEN + "Your" + ChatColor.BLUE + str + ChatColor.GREEN + "speed is already " + ChatColor.BLUE + args[0] + ChatColor.GREEN + ".");
+							player.sendActionBar(logo + ChatColor.DARK_GREEN + "Your" + ChatColor.AQUA + str + ChatColor.GREEN + "speed is already " + ChatColor.AQUA + args[0] + ChatColor.GREEN + ".");
 						}
 					} else {
 						player.sendActionBar(logo + ChatColor.RED + "Error : Invalid number : '" + ChatColor.DARK_PURPLE + args[0] + ChatColor.RED +"', it must be between 0 and 10.");
