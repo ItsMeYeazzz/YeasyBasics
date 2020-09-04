@@ -11,7 +11,7 @@ public class Message {
 
     private final Utils utils = new Utils();
 
-    public final String logo = utils.getColMsg("&8[&3Basics&8] ");
+    public final String logo = "&8[&3Basics&8] ";
 
     private final List<String> subCmd = Arrays.asList("survival", "creative", "adventure", "spectator");
 

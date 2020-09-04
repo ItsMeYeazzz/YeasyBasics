@@ -2,7 +2,6 @@ package com.gmail.perhapsitisyeazz.yeasybasics.command;
 
 import com.gmail.perhapsitisyeazz.yeasybasics.manager.Message;
 import com.gmail.perhapsitisyeazz.yeasybasics.util.Utils;
-import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.command.Command;
@@ -27,7 +26,7 @@ public class GamemodeCmd implements CommandExecutor {
             else if (match(args[0], "adventure", "a", "2")) gm = GameMode.ADVENTURE;
             else if (match(args[0], "spectator", "s", "3")) gm = GameMode.SPECTATOR;
             else {
-                utils.sendMessage(sender, logo + ChatColor.RED + "Error : Invalid argument : '" + ChatColor.DARK_PURPLE + args[0] + ChatColor.RED + "'.");
+                utils.sendMessage(sender, utils.getColMsg(logo + "&cError : Invalid argument : '&5" + args[0] + "&c'."));
                 sender.sendMessage(message.helpMessage());
                 return true;
             }
@@ -57,15 +56,15 @@ public class GamemodeCmd implements CommandExecutor {
         if (target.getGameMode() != gm) {
             if(sender instanceof Player) {
                 if (sender != target) {
-                    ((Player) sender).sendActionBar(logo + ChatColor.AQUA + sender.getName() + ChatColor.GREEN + " has set your gamemode to " + ChatColor.AQUA + gamemode+ChatColor.RED + ".");
+                    ((Player) sender).sendActionBar(utils.getColMsg(logo + "&b" + sender.getName() + "&a has set your gamemode to &b" + gamemode + "&a."));
                 }
             } else {
-                target.sendMessage(logo + ChatColor.AQUA + sender.getName() + ChatColor.GREEN + " has set your gamemode to " + ChatColor.AQUA + gamemode + ChatColor.GREEN + ".");
+                target.sendMessage(utils.getColMsg(logo + "&b" + sender.getName() + "&a has set your gamemode to &b" + gamemode + "&a."));
             }
-            utils.sendMessage(sender, logo + ChatColor.AQUA + target.getName() + ChatColor.GREEN + "'s gamemode has been set to " + ChatColor.GREEN + gamemode + ChatColor.RED + ".");
+            utils.sendMessage(sender, utils.getColMsg(logo +"&b" + target.getName() + "&a's gamemode has been set to &b" + gamemode +"&a."));
             target.setGameMode(gm);
         } else {
-            utils.sendMessage(sender, logo + ChatColor.DARK_AQUA + target.getName() + ChatColor.DARK_GREEN + " is already in " + ChatColor.DARK_AQUA + gamemode + ChatColor.DARK_GREEN + ".");
+            utils.sendMessage(sender, utils.getColMsg(logo +"&3" + target.getName() + "&2 is already in &3" + gamemode + "&2."));
         }
     }
 
