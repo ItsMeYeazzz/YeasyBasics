@@ -1,8 +1,7 @@
 package com.gmail.perhapsitisyeazz.yeasybasics.command;
 
 import com.gmail.perhapsitisyeazz.yeasybasics.manager.Message;
-import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.api.chat.TextComponent;
+import com.gmail.perhapsitisyeazz.yeasybasics.util.Utils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -12,8 +11,9 @@ import org.jetbrains.annotations.NotNull;
 public class SpeedCmd implements CommandExecutor {
 
 	private final Message message = new Message();
+	private final Utils utils = new Utils();
 
-	private final String logo = TextComponent.toLegacyText(message.logo);
+	private final String logo = message.logo;
 
 	@Override
 	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
@@ -28,29 +28,29 @@ public class SpeedCmd implements CommandExecutor {
 						float speed;
 						if (player.isFlying()) {
 							player.setFlySpeed(f);
-							str = " fly ";
+							str = " fly";
 							speed = player.getFlySpeed();
 						} else {
 							player.setWalkSpeed(f);
-							str = " walk ";
+							str = " walk";
 							speed = player.getWalkSpeed();
 						}
 						if(f != speed) {
-							player.sendActionBar(logo + ChatColor.GREEN + "Your" + ChatColor.AQUA + str + ChatColor.GREEN + "speed has been set to " + ChatColor.AQUA + args[0] + ChatColor.GREEN + ".");
+							player.sendActionBar(logo + utils.getColMsg("&aYour&b" + str + "&a speed has been set to &b" + args[0] + "&a."));
 						} else {
-							player.sendActionBar(logo + ChatColor.DARK_GREEN + "Your" + ChatColor.AQUA + str + ChatColor.GREEN + "speed is already " + ChatColor.AQUA + args[0] + ChatColor.GREEN + ".");
+							player.sendActionBar(logo + utils.getColMsg("&aYour&b" + str + "&a speed is already &b" + args[0] + "&a."));
 						}
 					} else {
-						player.sendActionBar(logo + ChatColor.RED + "Error : Invalid number : '" + ChatColor.DARK_PURPLE + args[0] + ChatColor.RED +"', it must be between 0 and 10.");
+						player.sendActionBar(logo + utils.getColMsg("&cError : Invalid number : '&5" + args[0] + "&c', it must be between 0 and 10."));
 					}
 				} catch (NumberFormatException e) {
-					player.sendActionBar(logo + ChatColor.RED + "Error : Invalid number : '" + ChatColor.DARK_PURPLE + args[0] + "'.");
+					player.sendActionBar(logo + utils.getColMsg("&cError : Invalid number : '&5" + args[0] + "&c'."));
 				}
 			} else {
-				player.sendActionBar(logo + ChatColor.RED + "Error : Missing number argument.");
+				player.sendActionBar(logo + utils.getColMsg("&cError : Missing number argument."));
 			}
 		} else {
-			sender.sendMessage(logo + ChatColor.RED + "Error : Player-only command.");
+			sender.sendMessage(logo + utils.getColMsg("&cError : Player-only command."));
 		}
 		return true;
 	}

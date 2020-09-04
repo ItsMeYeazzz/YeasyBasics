@@ -1,5 +1,5 @@
 name: YeasyBasics
-version: 1.0.0
+version: '${project.version}'
 main: com.gmail.perhapsitisyeazz.yeasybasics.YeasyBasics
 api-version: '1.15'
 description: 'Friend plugin'

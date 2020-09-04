@@ -3,7 +3,6 @@ package com.gmail.perhapsitisyeazz.yeasybasics.command;
 import com.gmail.perhapsitisyeazz.yeasybasics.manager.Message;
 import com.gmail.perhapsitisyeazz.yeasybasics.util.Utils;
 import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.command.Command;
@@ -17,7 +16,7 @@ public class GamemodeCmd implements CommandExecutor {
     private final Message message = new Message();
     private final Utils utils = new Utils();
 
-    private final String logo = TextComponent.toLegacyText(message.logo);
+    private final String logo = message.logo;
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {

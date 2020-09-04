@@ -1,5 +1,6 @@
 package com.gmail.perhapsitisyeazz.yeasybasics.manager;
 
+import com.gmail.perhapsitisyeazz.yeasybasics.util.Utils;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.*;
 
@@ -8,11 +9,9 @@ import java.util.List;
 
 public class Message {
 
-    public final BaseComponent[] logo = new ComponentBuilder()
-            .append("[").color(ChatColor.DARK_GRAY)
-            .append("Basics").color(ChatColor.DARK_AQUA)
-            .append("] ").color(ChatColor.DARK_GRAY)
-            .create();
+    private final Utils utils = new Utils();
+
+    public final String logo = utils.getColMsg("&8[&3Basics&8] ");
 
     private final List<String> subCmd = Arrays.asList("survival", "creative", "adventure", "spectator");
 
@@ -38,12 +37,12 @@ public class Message {
             builder
                     .append("\n» ").color(ChatColor.DARK_AQUA)
                     .append("/gamemode " + sub).color(ChatColor.GREEN)
-                    .event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, TextComponent.fromLegacyText(
-                                    ChatColor.DARK_GREEN + "Command: " + ChatColor.AQUA + arg +
-                                    ChatColor.DARK_GREEN + "\nDescription: " + ChatColor.AQUA + desc +
-                                    ChatColor.DARK_GREEN + "\nUsage: " + ChatColor.AQUA + "gamemode " + sub + "[player]" +
-                            ChatColor.DARK_GREEN + "\nAliases: " + ChatColor.AQUA + alias +
-                                    "\n\n" + ChatColor.GRAY + "Click to execute.")))
+                    .event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, TextComponent.fromLegacyText(utils.getColMsg(
+                            "&2Command: &b" + arg +
+                                    "\n&2Description: &b" + desc +
+                                    "\n&2Usage: &b/gamemode" + sub + "[<player>]" +
+                                    "\n&2Aliases: &b" + alias +
+                                    "\n\n&7Click to execute."))))
                     .event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/gamemode " + sub))
                     .append("").retain(ComponentBuilder.FormatRetention.NONE).reset();
         }
