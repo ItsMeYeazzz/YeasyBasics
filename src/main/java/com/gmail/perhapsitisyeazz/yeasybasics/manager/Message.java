@@ -3,6 +3,8 @@ package com.gmail.perhapsitisyeazz.yeasybasics.manager;
 import com.gmail.perhapsitisyeazz.yeasybasics.util.Utils;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.*;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 import java.util.Arrays;
 import java.util.List;
@@ -23,6 +25,15 @@ public class Message {
             "Adventure gamemode",
             "Spectator gamemode"
     );
+
+    public void sendMessage(CommandSender sender, String msg) {
+        if(sender instanceof Player) {
+            Player player = (Player) sender;
+            player.sendActionBar(msg);
+        } else {
+            sender.sendMessage(msg);
+        }
+    }
 
     @SuppressWarnings("deprecation")
     public BaseComponent[] helpMessage(){
