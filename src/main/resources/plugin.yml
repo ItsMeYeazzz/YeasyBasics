@@ -22,3 +22,8 @@ commands:
     permission: speed
     permission-message: You do not have the permission to use this command.
     usage: /<command> <float>
+  time:
+    description: Allows you to change the time of a world.
+    permission: time
+    permission-message: You do not have the permission to use this command.
+    usage: /<command> <string> <world> <time>
