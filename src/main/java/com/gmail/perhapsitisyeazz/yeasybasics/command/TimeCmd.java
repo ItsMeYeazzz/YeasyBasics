@@ -12,14 +12,17 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class TimeCmd implements CommandExecutor {
 
 	private final Message message = new Message();
 	private final Utils utils = new Utils();
 
 	private final String logo = message.logo;
-	/*private final List<String> timeNames = Arrays.asList("sunrise", "day", "noon", "sunset", "night", "midnight");
-	private final List<Long> ticksByNames = Arrays.asList(23000L, 1000L, 6000L, 12000L, 13000L, 18000L);*/
+	private final List<String> timeNames = Arrays.asList("sunrise", "day", "noon", "sunset", "night", "midnight");
+	private final List<Long> ticksByNames = Arrays.asList(23000L, 1000L, 6000L, 12000L, 13000L, 18000L);
 
 	@Override
 	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
@@ -33,30 +36,14 @@ public class TimeCmd implements CommandExecutor {
 						updateTime(player.getWorld(), time, args[0], player);
 						return true;
 					} catch (NumberFormatException e) {
-						switch (args[1]) {
-							case "sunrise":
-								time = 23000L;
-								break;
-							case "day":
-								time = 1000L;
-								break;
-							case "noon":
-								time = 6000L;
-								break;
-							case "sunset":
-								time = 12000L;
-								break;
-							case "night":
-								time = 13000L;
-								break;
-							case "midnight":
-								time = 18000L;
-								break;
-							default:
-								player.sendActionBar(utils.getColMsg(logo + "&cError : Invalid number/string : '&5" + args[0] + "&c'."));
+						for(int i = 0; i <= 6; i++) {
+							if(args[1].equals(timeNames.get(i))) {
+								time = ticksByNames.get(i);
+								updateTime(player.getWorld(), time, args[0], player);
 								return true;
+							}
 						}
-						updateTime(player.getWorld(), time, args[0], player);
+						player.sendActionBar(utils.getColMsg(logo + "&cError : Invalid number/string : '&5" + args[0] + "&c'."));
 					}
 				} else {
 					if(world(args[1]) != null) {
@@ -75,30 +62,14 @@ public class TimeCmd implements CommandExecutor {
 						updateTime(world, time, args[0], sender);
 						return true;
 					} catch (NumberFormatException e) {
-						switch (args[1]) {
-							case "sunrise":
-								time = 23000L;
-								break;
-							case "day":
-								time = 1000L;
-								break;
-							case "noon":
-								time = 6000L;
-								break;
-							case "sunset":
-								time = 12000L;
-								break;
-							case "night":
-								time = 13000L;
-								break;
-							case "midnight":
-								time = 18000L;
-								break;
-							default:
-								message.sendMessage(sender, utils.getColMsg(logo + "&cError : Invalid number/string : '&5" + args[2] + "&c'."));
+						for(int i = 0; i <= 6; i++) {
+							if(args[1].equals(timeNames.get(i))) {
+								time = ticksByNames.get(i);
+								updateTime(world, time, args[0], sender);
 								return true;
+							}
 						}
-						updateTime(world, time, args[0], sender);
+						sender.sendMessage(utils.getColMsg(logo + "&cError : Invalid number/string : '&5" + args[0] + "&c'."));
 					}
 				} else {
 					message.sendMessage(sender, utils.getColMsg(logo + "&cError : Invalid world : '&5" + args[1] + "&c'."));
