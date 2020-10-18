@@ -27,52 +27,63 @@ public class TimeCmd implements CommandExecutor {
 	@Override
 	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
 		if(args.length > 0) {
-			if(args.length == 2) {
-				if (sender instanceof Player) {
-					Player player = (Player) sender;
-					long time;
-					try {
-						time = Long.parseLong(args[1]);
-						updateTime(player.getWorld(), time, args[0], player);
-						return true;
-					} catch (NumberFormatException e) {
-						for(int i = 0; i <= 6; i++) {
-							if(args[1].equals(timeNames.get(i))) {
-								time = ticksByNames.get(i);
-								updateTime(player.getWorld(), time, args[0], player);
-								return true;
+			if(args.length > 1) {
+				if(!utils.match(args[0], "set", "add", "remove")) {
+					sender.sendMessage(message.timeHelpMessage());
+					return true;
+				}
+				if(args.length == 2) {
+					if (sender instanceof Player) {
+						Player player = (Player) sender;
+						long time;
+						try {
+							time = Long.parseLong(args[1]);
+							updateTime(player.getWorld(), time, args[0], player);
+							return true;
+						} catch (NumberFormatException e) {
+							for(int i = 0; i < 6; i++) {
+								if(args[1].equals(timeNames.get(i))) {
+									time = ticksByNames.get(i);
+									updateTime(player.getWorld(), time, args[0], player);
+									return true;
+								}
 							}
+							player.sendActionBar(logo + utils.getColMsg("&cError : Invalid number/string : '&5" + args[1] + "&c'."));
 						}
-						player.sendActionBar(utils.getColMsg(logo + "&cError : Invalid number/string : '&5" + args[0] + "&c'."));
-					}
-				} else {
-					if(world(args[1]) != null) {
-						sender.sendMessage(utils.getColMsg(logo + "&cError : You must put a time at argument 2."));
 					} else {
-						sender.sendMessage(utils.getColMsg(logo + "&cError : Invalid world : '&5" + args[0] + "&c'."));
+						if(world(args[1]) != null) {
+							sender.sendMessage(logo + utils.getColMsg("&cError : You must put a time at argument 2."));
+						} else {
+							sender.sendMessage(logo + utils.getColMsg("&cError : Invalid world : '&5" + args[1] + "&c'."));
+						}
 					}
 				}
-			}
-			if(args.length >= 3) {
-				World world = world(args[1]);
-				if(world != null) {
-					long time;
-					try {
-						time = Long.parseLong(args[2]);
-						updateTime(world, time, args[0], sender);
-						return true;
-					} catch (NumberFormatException e) {
-						for(int i = 0; i <= 6; i++) {
-							if(args[1].equals(timeNames.get(i))) {
-								time = ticksByNames.get(i);
-								updateTime(world, time, args[0], sender);
-								return true;
+				if(args.length >= 3) {
+					World world = world(args[1]);
+					if(world != null) {
+						long time;
+						try {
+							time = Long.parseLong(args[2]);
+							updateTime(world, time, args[0], sender);
+							return true;
+						} catch (NumberFormatException e) {
+							for(int i = 0; i < 6; i++) {
+								if(args[1].equals(timeNames.get(i))) {
+									time = ticksByNames.get(i);
+									updateTime(world, time, args[0], sender);
+									return true;
+								}
 							}
+							sender.sendMessage(logo + utils.getColMsg("&cError : Invalid number/string : '&5" + args[2] + "&c'."));
 						}
-						sender.sendMessage(utils.getColMsg(logo + "&cError : Invalid number/string : '&5" + args[0] + "&c'."));
+					} else {
+						utils.sendMessage(sender, logo + utils.getColMsg("&cError : Invalid world : '&5" + args[1] + "&c'."));
 					}
-				} else {
-					message.sendMessage(sender, utils.getColMsg(logo + "&cError : Invalid world : '&5" + args[1] + "&c'."));
+				}
+			} else {
+				if(sender instanceof Player) {
+					Player player = (Player) sender;
+
 				}
 			}
 		} else {
@@ -80,10 +91,13 @@ public class TimeCmd implements CommandExecutor {
 				Player player = (Player) sender;
 				long playerWorldTime = player.getWorld().getTime();
 				String playerWorldName = player.getWorld().getName();
-				player.sendMessage(utils.getColMsg(logo + "&aYour world:\n&3» &a" + playerWorldName + " &7- &f" + playerWorldTime));
+				player.sendMessage(logo + utils.getColMsg("&aYour world:\n&3» &a" + playerWorldName + " &7- &f" + playerWorldTime));
 			} else {
 				ComponentBuilder builder = new ComponentBuilder();
-				builder.append(utils.getColMsg(logo + "&aWorlds list:"));
+				builder
+						.append("\n")
+						.append(logo)
+						.append(utils.getColMsg("&aWorlds list:"));
 				for(World world : Bukkit.getWorlds()) {
 					builder
 							.append("\n » ").color(ChatColor.DARK_AQUA)
@@ -102,13 +116,16 @@ public class TimeCmd implements CommandExecutor {
 		if(arg.equalsIgnoreCase("set")) {
 			if (time >= 0L && time <= 60000L) {
 				world.setTime(time);
-				message.sendMessage(sender, utils.getColMsg(logo + "&b" + worldName + "&a's time has been set to &b" + time + "&a."));
+				utils.sendMessage(sender, logo + utils.getColMsg("&b" + worldName + "&a's time has been set to &b" + time + "&a."));
 			} else {
-				message.sendMessage(sender, utils.getColMsg(logo + "&cError : Invalid time : '&5" + time + "&c', it must be between 0 and 60,000."));
+				utils.sendMessage(sender, logo + utils.getColMsg("&cError : Invalid time : '&5" + time + "&c', it must be between 0 and 60,000."));
 			}
 		} else if(arg.equalsIgnoreCase("add")) {
 			world.setTime(time + world.getTime());
-			message.sendMessage(sender, utils.getColMsg(logo + "&b" + worldName + "&a's time has been set to &b" + time + "&a."));
+			utils.sendMessage(sender, logo + utils.getColMsg("&b" + worldName + "&a's time has been set to &b" + (time + world.getTime()) + "&a."));
+		} else if(arg.equalsIgnoreCase("remove")) {
+			world.setTime(world.getTime() - time);
+			utils.sendMessage(sender, logo + utils.getColMsg("&b" + worldName + "&a's time has been set to &b" + (world.getTime() - time) + "&a."));
 		}
 	}
 

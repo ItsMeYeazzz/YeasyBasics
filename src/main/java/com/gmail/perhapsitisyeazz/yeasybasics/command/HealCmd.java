@@ -25,20 +25,20 @@ public class HealCmd implements CommandExecutor {
 			Player target = Bukkit.getPlayer(args[0]);
 			if(target != null && target != sender) {
 				heal(sender, target);
-				utils.sendMessage(sender, utils.getColMsg(logo + "&b" + target.getName() + "&ahas been successfully heal."));
-				target.sendActionBar(utils.getColMsg(logo + "&aYou have been successfully heal by &b" + sender.getName() + "&a."));
+				utils.sendMessage(sender, logo + utils.getColMsg("&b" + target.getName() + "&ahas been successfully heal."));
+				target.sendActionBar(logo + utils.getColMsg("&aYou have been successfully heal by &b" + sender.getName() + "&a."));
 			} else if(sender instanceof Player) {
 				Player player = (Player) sender;
 				heal(sender, player);
-				player.sendActionBar(utils.getColMsg(logo + "&aYou have been successfully heal."));
+				player.sendActionBar(logo + utils.getColMsg("&aYou have been successfully heal."));
 			}
 		} else {
 			if(sender instanceof Player) {
 				Player player = (Player) sender;
 				heal(sender, player);
-				player.sendActionBar(utils.getColMsg(logo + "&aYou have been successfully heal."));
+				player.sendActionBar(logo + utils.getColMsg("&aYou have been successfully heal."));
 			} else {
-				sender.sendMessage(utils.getColMsg(logo + "&cError : Missing argument."));
+				sender.sendMessage(logo + utils.getColMsg("&cError : Missing argument."));
 			}
 		}
 		return true;
@@ -54,7 +54,7 @@ public class HealCmd implements CommandExecutor {
 				player.removePotionEffect(effect.getType());
 			}
 		} else {
-			utils.sendMessage(sender, utils.getColMsg(logo + "&cError : &5" + player.getName() + "&c is dead."));
+			utils.sendMessage(sender, logo + utils.getColMsg("&cError : &5" + player.getName() + "&c is dead."));
 		}
 	}
 }

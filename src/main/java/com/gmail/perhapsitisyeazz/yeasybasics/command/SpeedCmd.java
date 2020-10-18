@@ -35,21 +35,21 @@ public class SpeedCmd implements CommandExecutor {
 							speed = player.getWalkSpeed();
 						}
 						if(f != speed) {
-							player.sendActionBar(utils.getColMsg(logo + "&aYour&b" + str + "&a speed has been set to &b" + args[0] + "&a."));
+							player.sendActionBar(logo + utils.getColMsg("&aYour&b" + str + "&a speed has been set to &b" + args[0] + "&a."));
 						} else {
-							player.sendActionBar(utils.getColMsg(logo + "&aYour&b" + str + "&a speed is already &b" + args[0] + "&a."));
+							player.sendActionBar(logo + utils.getColMsg("&aYour&b" + str + "&a speed is already &b" + args[0] + "&a."));
 						}
 					} else {
-						player.sendActionBar(utils.getColMsg(logo + "&cError : Invalid number : '&5" + args[0] + "&c', it must be between 0 and 10."));
+						player.sendActionBar(logo + utils.getColMsg("&cError : Invalid number : '&5" + args[0] + "&c', it must be between 0 and 10."));
 					}
 				} catch (NumberFormatException e) {
-					player.sendActionBar(utils.getColMsg(logo + "&cError : Invalid number : '&5" + args[0] + "&c'."));
+					player.sendActionBar(logo + utils.getColMsg("&cError : Invalid number : '&5" + args[0] + "&c'."));
 				}
 			} else {
-				player.sendActionBar(utils.getColMsg(logo + "&cError : Missing number argument."));
+				player.sendActionBar(logo + utils.getColMsg("&cError : Missing number argument."));
 			}
 		} else {
-			sender.sendMessage(utils.getColMsg(logo + "&cError : Player-only command."));
+			sender.sendMessage(logo + utils.getColMsg("&cError : Player-only command."));
 		}
 		return true;
 	}

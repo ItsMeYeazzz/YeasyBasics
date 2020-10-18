@@ -14,6 +14,13 @@ public class Utils {
 		}
 	}
 
+	public boolean match(String arg, String... str) {
+		for (String m : str) {
+			if (m.equalsIgnoreCase(arg)) return true;
+		}
+		return false;
+	}
+
 	public String getColMsg(String string) {
 		return ChatColor.translateAlternateColorCodes('&', string);
 	}
