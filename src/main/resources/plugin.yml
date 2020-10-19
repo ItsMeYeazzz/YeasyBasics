@@ -27,3 +27,8 @@ commands:
     permission: time
     permission-message: You do not have the permission to use this command.
     usage: /<command> <string> <world> <time>
+  invsee:
+    description: Allows you to see and manage a player's inventory
+    permission: invsee
+    permission-message: You do not have the permission to use this command.
+    usage: /<command> <player>

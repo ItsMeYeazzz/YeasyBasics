@@ -1,28 +1,20 @@
 package com.gmail.perhapsitisyeazz.yeasybasics;
 
-import com.gmail.perhapsitisyeazz.yeasybasics.command.GamemodeCmd;
-import com.gmail.perhapsitisyeazz.yeasybasics.command.HealCmd;
-import com.gmail.perhapsitisyeazz.yeasybasics.command.SpeedCmd;
-import com.gmail.perhapsitisyeazz.yeasybasics.command.TimeCmd;
-import org.bukkit.command.PluginCommand;
+import com.gmail.perhapsitisyeazz.yeasybasics.command.*;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class YeasyBasics extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        PluginCommand gmCmd = this.getCommand("gamemode"),
-                healCmd = this.getCommand("heal") ,
-                speedCmd = this.getCommand("speed"),
-                timeCmd = this.getCommand("time");
-        if(gmCmd != null && healCmd != null && speedCmd != null && timeCmd != null) {
-            gmCmd.setExecutor(new GamemodeCmd());
-            healCmd.setExecutor(new HealCmd());
-            speedCmd.setExecutor(new SpeedCmd());
-            timeCmd.setExecutor(new TimeCmd());
-        }
+        this.getCommand("gamemode").setExecutor(new GamemodeCmd());
+        this.getCommand("heal").setExecutor(new HealCmd());
+        this.getCommand("speed").setExecutor(new SpeedCmd());
+        this.getCommand("time").setExecutor(new TimeCmd());
+        this.getCommand("invsee").setExecutor(new InvSeeCmd());
     }
 
     @Override
-    public void onDisable() {}
+    public void onDisable() {
+    }
 }
