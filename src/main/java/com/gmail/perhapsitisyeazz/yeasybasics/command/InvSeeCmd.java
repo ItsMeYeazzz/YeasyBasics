@@ -16,6 +16,7 @@ public class InvSeeCmd implements CommandExecutor {
 				Player player = (Player) sender;
 				Player target = Bukkit.getPlayer(args[0]);
 				if(target == null) return true;
+				if(player == target) return true;
 				player.openInventory(target.getInventory());
 				player.sendActionBar("yes");
 			}
