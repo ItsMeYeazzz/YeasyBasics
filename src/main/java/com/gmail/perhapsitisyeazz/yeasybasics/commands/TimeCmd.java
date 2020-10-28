@@ -1,6 +1,6 @@
-package com.gmail.perhapsitisyeazz.yeasybasics.command;
+package com.gmail.perhapsitisyeazz.yeasybasics.commands;
 
-import com.gmail.perhapsitisyeazz.yeasybasics.manager.Message;
+import com.gmail.perhapsitisyeazz.yeasybasics.util.Message;
 import com.gmail.perhapsitisyeazz.yeasybasics.util.Utils;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.ComponentBuilder;

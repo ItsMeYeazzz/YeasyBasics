@@ -1,7 +1,7 @@
-package com.gmail.perhapsitisyeazz.yeasybasics.listener;
+package com.gmail.perhapsitisyeazz.yeasybasics.listeners;
 
 import com.gmail.perhapsitisyeazz.yeasybasics.YeasyBasics;
-import com.gmail.perhapsitisyeazz.yeasybasics.manager.Message;
+import com.gmail.perhapsitisyeazz.yeasybasics.util.Message;
 import com.gmail.perhapsitisyeazz.yeasybasics.util.Utils;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;

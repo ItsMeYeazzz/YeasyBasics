@@ -1,7 +1,7 @@
 package com.gmail.perhapsitisyeazz.yeasybasics;
 
-import com.gmail.perhapsitisyeazz.yeasybasics.command.*;
-import com.gmail.perhapsitisyeazz.yeasybasics.listener.UtilsEvt;
+import com.gmail.perhapsitisyeazz.yeasybasics.commands.*;
+import com.gmail.perhapsitisyeazz.yeasybasics.listeners.UtilsEvt;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
