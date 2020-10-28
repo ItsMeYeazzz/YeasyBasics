@@ -8,10 +8,17 @@ import java.io.File;
 
 public class YeasyBasics extends JavaPlugin {
 
+    private YeasyBasics instance;
+
+    public YeasyBasics getInstance() {
+        return instance;
+    }
+
     public final File spellFile = new File("plugins/YeasyBasics/spells/");
 
     @Override
     public void onEnable() {
+        instance = this;
         if(!spellFile.exists()) {
             boolean wasCreated = spellFile.mkdirs();
             getLogger().warning("Directory creation " + (wasCreated ? "successful" : "failed") + ".");
@@ -26,5 +33,6 @@ public class YeasyBasics extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        instance = null;
     }
 }

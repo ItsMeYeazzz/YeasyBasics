@@ -1,17 +1,28 @@
 package com.gmail.perhapsitisyeazz.yeasybasics.listeners;
 
 import com.gmail.perhapsitisyeazz.yeasybasics.YeasyBasics;
+import com.gmail.perhapsitisyeazz.yeasybasics.events.SpellCastEvent;
+import com.gmail.perhapsitisyeazz.yeasybasics.spell.Spell;
 import com.gmail.perhapsitisyeazz.yeasybasics.util.Message;
 import com.gmail.perhapsitisyeazz.yeasybasics.util.Util;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.persistence.PersistentDataType;
 
 public class UtilsEvt implements Listener {
 
@@ -49,5 +60,32 @@ public class UtilsEvt implements Listener {
             }
         }
         event.setMessage(ChatColor.translateAlternateColorCodes('&', newMessage));
+    }
+
+    @EventHandler
+    private void onCastSpellFireEvent(PlayerInteractEvent event) {
+        Action action = event.getAction();
+        if(action == Action.LEFT_CLICK_AIR || action == Action.LEFT_CLICK_BLOCK) {
+            ItemStack item = event.getItem();
+            if(item == null) return;
+            ItemMeta meta = item.getItemMeta();
+            PersistentDataContainer container = meta.getPersistentDataContainer();
+            NamespacedKey key = new NamespacedKey((new YeasyBasics()).getInstance(), "spell-level");
+            if(meta.hasDisplayName() && meta.hasLore() && meta.hasCustomModelData() && container.has(key, PersistentDataType.INTEGER)) {
+                int spellLevel = container.get(key, PersistentDataType.INTEGER);
+                Bukkit.getPluginManager().callEvent(new SpellCastEvent(event.getPlayer(), Spell.BUBBLE, spellLevel));
+            }
+        }
+    }
+
+    @EventHandler
+    private void onPlaceSpell(BlockPlaceEvent event) {
+        ItemStack item = event.getItemInHand();
+        if(item.getType() == Material.PLAYER_HEAD || item.getType() == Material.PLAYER_WALL_HEAD) {
+            ItemMeta meta = item.getItemMeta();
+            if(meta.hasDisplayName() && meta.hasLore()) {
+                event.setCancelled(true);
+            }
+        }
     }
 }

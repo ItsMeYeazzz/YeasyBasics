@@ -2,22 +2,24 @@ package com.gmail.perhapsitisyeazz.yeasybasics.events;
 
 import com.gmail.perhapsitisyeazz.yeasybasics.spell.Spell;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.jetbrains.annotations.NotNull;
 
 @SuppressWarnings("unused")
-public class SpellCastEvent extends Event {
+public class SpellCastEvent extends Event implements Cancellable {
 
-	private static final HandlerList handlers = new HandlerList();
 	private final Player player;
 	private final Spell spell;
 	private final int spellLevel;
+	private boolean isCancelled;
 
 	public SpellCastEvent(@NotNull Player player, @NotNull Spell spell, int spellLevel) {
 		this.player = player;
 		this.spell = spell;
 		this.spellLevel = spellLevel;
+		this.isCancelled = false;
 	}
 
 	public Player getPlayer() {
@@ -32,6 +34,8 @@ public class SpellCastEvent extends Event {
 		return spellLevel;
 	}
 
+	private static final HandlerList handlers = new HandlerList();
+
 	@SuppressWarnings("NullableProblems")
 	@Override
 	public HandlerList getHandlers() {
@@ -40,5 +44,15 @@ public class SpellCastEvent extends Event {
 
 	public static HandlerList getHandlerList() {
 		return handlers;
+	}
+
+	@Override
+	public boolean isCancelled() {
+		return this.isCancelled;
+	}
+
+	@Override
+	public void setCancelled(boolean isCancelled) {
+		this.isCancelled = isCancelled;
 	}
 }
