@@ -32,5 +32,3 @@ commands:
     permission: invsee
     permission-message: You do not have the permission to use this command.
     usage: /<command> <player>
-    aliases:
-      - inv
