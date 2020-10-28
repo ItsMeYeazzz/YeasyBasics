@@ -1,7 +1,7 @@
 package com.gmail.perhapsitisyeazz.yeasybasics.commands;
 
 import com.gmail.perhapsitisyeazz.yeasybasics.util.Message;
-import com.gmail.perhapsitisyeazz.yeasybasics.util.Utils;
+import com.gmail.perhapsitisyeazz.yeasybasics.util.Util;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.command.Command;
@@ -13,7 +13,7 @@ import org.jetbrains.annotations.NotNull;
 public class GamemodeCmd implements CommandExecutor {
 
     private final Message message = new Message();
-    private final Utils utils = new Utils();
+    private final Util util = new Util();
 
     private final String logo = message.logo;
 
@@ -21,12 +21,12 @@ public class GamemodeCmd implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if(args.length > 0) {
             GameMode gm;
-            if (utils.match(args[0], "survival", "s", "0")) gm = GameMode.SURVIVAL;
-            else if(utils.match(args[0], "creative", "c", "1")) gm = GameMode.CREATIVE;
-            else if(utils.match(args[0], "adventure", "a", "2")) gm = GameMode.ADVENTURE;
-            else if(utils.match(args[0], "spectator", "s", "3")) gm = GameMode.SPECTATOR;
+            if (util.match(args[0], "survival", "s", "0")) gm = GameMode.SURVIVAL;
+            else if(util.match(args[0], "creative", "c", "1")) gm = GameMode.CREATIVE;
+            else if(util.match(args[0], "adventure", "a", "2")) gm = GameMode.ADVENTURE;
+            else if(util.match(args[0], "spectator", "s", "3")) gm = GameMode.SPECTATOR;
             else {
-                utils.sendMessage(sender, utils.getColMsg(logo + "&cError : Invalid argument : '&5" + args[0] + "&c'."));
+                util.sendMessage(sender, util.getColMsg(logo + "&cError : Invalid argument : '&5" + args[0] + "&c'."));
                 sender.sendMessage(message.gmHelpMessage());
                 return true;
             }
@@ -56,15 +56,15 @@ public class GamemodeCmd implements CommandExecutor {
         if(target.getGameMode() != gm) {
             if(sender instanceof Player) {
                 if(sender != target) {
-                    ((Player) sender).sendActionBar(logo + utils.getColMsg("&b" + sender.getName() + "&a has set your gamemode to &b" + gamemode + "&a."));
+                    ((Player) sender).sendActionBar(logo + util.getColMsg("&b" + sender.getName() + "&a has set your gamemode to &b" + gamemode + "&a."));
                 }
             } else {
-                target.sendMessage(logo + utils.getColMsg("&b" + sender.getName() + "&a has set your gamemode to &b" + gamemode + "&a."));
+                target.sendMessage(logo + util.getColMsg("&b" + sender.getName() + "&a has set your gamemode to &b" + gamemode + "&a."));
             }
-            utils.sendMessage(sender, logo + utils.getColMsg("&b" + target.getName() + "&a's gamemode has been set to &b" + gamemode +"&a."));
+            util.sendMessage(sender, logo + util.getColMsg("&b" + target.getName() + "&a's gamemode has been set to &b" + gamemode +"&a."));
             target.setGameMode(gm);
         } else {
-            utils.sendMessage(sender, logo + utils.getColMsg("&3" + target.getName() + "&2 is already in &3" + gamemode + "&2."));
+            util.sendMessage(sender, logo + util.getColMsg("&3" + target.getName() + "&2 is already in &3" + gamemode + "&2."));
         }
     }
 }

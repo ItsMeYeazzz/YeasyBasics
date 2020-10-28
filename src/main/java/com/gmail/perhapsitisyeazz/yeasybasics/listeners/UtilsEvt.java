@@ -2,7 +2,7 @@ package com.gmail.perhapsitisyeazz.yeasybasics.listeners;
 
 import com.gmail.perhapsitisyeazz.yeasybasics.YeasyBasics;
 import com.gmail.perhapsitisyeazz.yeasybasics.util.Message;
-import com.gmail.perhapsitisyeazz.yeasybasics.util.Utils;
+import com.gmail.perhapsitisyeazz.yeasybasics.util.Util;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
@@ -20,19 +20,19 @@ public class UtilsEvt implements Listener {
 		this.main = main;
 	}
 
-    private final Utils utils = new Utils();
+    private final Util util = new Util();
     private final Message message = new Message();
 
     @EventHandler
     private void onJoin(PlayerJoinEvent event) {
         String player = event.getPlayer().getDisplayName();
-        event.setJoinMessage(utils.getColMsg("&7[&a&l+&7] " + player));
+        event.setJoinMessage(util.getColMsg("&7[&a&l+&7] " + player));
     }
 
     @EventHandler
     private void onQuit(PlayerQuitEvent event) {
         String player = event.getPlayer().getDisplayName();
-        event.setQuitMessage(utils.getColMsg("&7[&ac&l-&7] " + player));
+        event.setQuitMessage(util.getColMsg("&7[&ac&l-&7] " + player));
     }
 
 
@@ -44,7 +44,7 @@ public class UtilsEvt implements Listener {
             if(event.getMessage().contains(player.getName())) {
                 ChatColor color = ChatColor.of(ChatColor.of(event.getMessage()).getColor());
                 newMessage = newMessage.replaceAll(player.getName(), ChatColor.AQUA + player.getName() + color);
-                player.sendActionBar(message.logo + utils.getColMsg("&b" + event.getPlayer().getName() + " &7has pinged you in the chat."));
+                player.sendActionBar(message.logo + util.getColMsg("&b" + event.getPlayer().getName() + " &7has pinged you in the chat."));
                 player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1F, 1F);
             }
         }

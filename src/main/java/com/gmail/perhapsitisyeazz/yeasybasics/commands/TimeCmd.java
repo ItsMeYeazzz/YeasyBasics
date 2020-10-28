@@ -1,7 +1,7 @@
 package com.gmail.perhapsitisyeazz.yeasybasics.commands;
 
 import com.gmail.perhapsitisyeazz.yeasybasics.util.Message;
-import com.gmail.perhapsitisyeazz.yeasybasics.util.Utils;
+import com.gmail.perhapsitisyeazz.yeasybasics.util.Util;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import org.bukkit.Bukkit;
@@ -18,7 +18,7 @@ import java.util.List;
 public class TimeCmd implements CommandExecutor {
 
 	private final Message message = new Message();
-	private final Utils utils = new Utils();
+	private final Util util = new Util();
 
 	private final String logo = message.logo;
 	private final List<String> timeNames = Arrays.asList("sunrise", "day", "noon", "sunset", "night", "midnight");
@@ -28,7 +28,7 @@ public class TimeCmd implements CommandExecutor {
 	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
 		if(args.length > 0) {
 			if(args.length > 1) {
-				if(!utils.match(args[0], "set", "add", "remove")) {
+				if(!util.match(args[0], "set", "add", "remove")) {
 					sender.sendMessage(message.timeHelpMessage());
 					return true;
 				}
@@ -48,13 +48,13 @@ public class TimeCmd implements CommandExecutor {
 									return true;
 								}
 							}
-							player.sendActionBar(logo + utils.getColMsg("&cError : Invalid number/string : '&5" + args[1] + "&c'."));
+							player.sendActionBar(logo + util.getColMsg("&cError : Invalid number/string : '&5" + args[1] + "&c'."));
 						}
 					} else {
 						if(world(args[1]) != null) {
-							sender.sendMessage(logo + utils.getColMsg("&cError : You must put a time at argument 2."));
+							sender.sendMessage(logo + util.getColMsg("&cError : You must put a time at argument 2."));
 						} else {
-							sender.sendMessage(logo + utils.getColMsg("&cError : Invalid world : '&5" + args[1] + "&c'."));
+							sender.sendMessage(logo + util.getColMsg("&cError : Invalid world : '&5" + args[1] + "&c'."));
 						}
 					}
 				}
@@ -74,10 +74,10 @@ public class TimeCmd implements CommandExecutor {
 									return true;
 								}
 							}
-							sender.sendMessage(logo + utils.getColMsg("&cError : Invalid number/string : '&5" + args[2] + "&c'."));
+							sender.sendMessage(logo + util.getColMsg("&cError : Invalid number/string : '&5" + args[2] + "&c'."));
 						}
 					} else {
-						utils.sendMessage(sender, logo + utils.getColMsg("&cError : Invalid world : '&5" + args[1] + "&c'."));
+						util.sendMessage(sender, logo + util.getColMsg("&cError : Invalid world : '&5" + args[1] + "&c'."));
 					}
 				}
 			} else {
@@ -91,13 +91,13 @@ public class TimeCmd implements CommandExecutor {
 				Player player = (Player) sender;
 				long playerWorldTime = player.getWorld().getTime();
 				String playerWorldName = player.getWorld().getName();
-				player.sendMessage(logo + utils.getColMsg("&aYour world:\n&3» &a" + playerWorldName + " &7- &f" + playerWorldTime));
+				player.sendMessage(logo + util.getColMsg("&aYour world:\n&3» &a" + playerWorldName + " &7- &f" + playerWorldTime));
 			} else {
 				ComponentBuilder builder = new ComponentBuilder();
 				builder
 						.append("\n")
 						.append(logo)
-						.append(utils.getColMsg("&aWorlds list:"));
+						.append(util.getColMsg("&aWorlds list:"));
 				for(World world : Bukkit.getWorlds()) {
 					builder
 							.append("\n » ").color(ChatColor.DARK_AQUA)
@@ -116,16 +116,16 @@ public class TimeCmd implements CommandExecutor {
 		if(arg.equalsIgnoreCase("set")) {
 			if (time >= 0L && time <= 60000L) {
 				world.setTime(time);
-				utils.sendMessage(sender, logo + utils.getColMsg("&b" + worldName + "&a's time has been set to &b" + time + "&a."));
+				util.sendMessage(sender, logo + util.getColMsg("&b" + worldName + "&a's time has been set to &b" + time + "&a."));
 			} else {
-				utils.sendMessage(sender, logo + utils.getColMsg("&cError : Invalid time : '&5" + time + "&c', it must be between 0 and 60,000."));
+				util.sendMessage(sender, logo + util.getColMsg("&cError : Invalid time : '&5" + time + "&c', it must be between 0 and 60,000."));
 			}
 		} else if(arg.equalsIgnoreCase("add")) {
 			world.setTime(time + world.getTime());
-			utils.sendMessage(sender, logo + utils.getColMsg("&b" + worldName + "&a's time has been set to &b" + (time + world.getTime()) + "&a."));
+			util.sendMessage(sender, logo + util.getColMsg("&b" + worldName + "&a's time has been set to &b" + (time + world.getTime()) + "&a."));
 		} else if(arg.equalsIgnoreCase("remove")) {
 			world.setTime(world.getTime() - time);
-			utils.sendMessage(sender, logo + utils.getColMsg("&b" + worldName + "&a's time has been set to &b" + (world.getTime() - time) + "&a."));
+			util.sendMessage(sender, logo + util.getColMsg("&b" + worldName + "&a's time has been set to &b" + (world.getTime() - time) + "&a."));
 		}
 	}
 

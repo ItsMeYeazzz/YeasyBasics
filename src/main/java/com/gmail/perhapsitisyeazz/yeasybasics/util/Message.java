@@ -1,6 +1,5 @@
 package com.gmail.perhapsitisyeazz.yeasybasics.util;
 
-import com.gmail.perhapsitisyeazz.yeasybasics.util.Utils;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.*;
 
@@ -10,9 +9,9 @@ import java.util.List;
 @SuppressWarnings("deprecation")
 public class Message {
 
-    private final Utils utils = new Utils();
+    private final Util util = new Util();
 
-    public final String logo = utils.getColMsg("&8[&3Basics&8] ");
+    public final String logo = util.getColMsg("&8[&3Basics&8] ");
 
     private final List<String> gmSubCmd = Arrays.asList("survival", "creative", "adventure", "spectator");
     private final List<String> gmAliasCmd = Arrays.asList("s, 0", "c, 1", "a, 2", "s, 3");
@@ -40,7 +39,7 @@ public class Message {
             builder
                     .append(" \n» ").color(ChatColor.DARK_AQUA)
                     .append("/gamemode " + sub).color(ChatColor.GREEN)
-                    .event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, TextComponent.fromLegacyText(utils.getColMsg(
+                    .event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, TextComponent.fromLegacyText(util.getColMsg(
                             "&2Command: &b" + arg +
                                     "\n&2Description: &b" + desc +
                                     "\n&2Usage: &b/gm " + sub + " [<player>]" +
@@ -63,7 +62,7 @@ public class Message {
             builder
                     .append(" \n» ").color(ChatColor.DARK_AQUA)
                     .append("/time " + sub).color(ChatColor.GREEN)
-                    .event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, TextComponent.fromLegacyText(utils.getColMsg(
+                    .event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, TextComponent.fromLegacyText(util.getColMsg(
                             "&2Command: &b" + arg +
                                     "\n&2Description: &b" + desc +
                                     "\nUsage: &b/time " + sub + " [<world>] <string/long>" +

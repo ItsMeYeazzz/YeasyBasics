@@ -4,7 +4,7 @@ import net.md_5.bungee.api.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class Utils {
+public class Util {
 
 	public void sendMessage(CommandSender sender, String message) {
 		if(sender instanceof Player) {

@@ -1,7 +1,7 @@
 package com.gmail.perhapsitisyeazz.yeasybasics.commands;
 
 import com.gmail.perhapsitisyeazz.yeasybasics.util.Message;
-import com.gmail.perhapsitisyeazz.yeasybasics.util.Utils;
+import com.gmail.perhapsitisyeazz.yeasybasics.util.Util;
 import org.bukkit.Bukkit;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
@@ -15,7 +15,7 @@ import org.jetbrains.annotations.NotNull;
 public class HealCmd implements CommandExecutor {
 
 	private final Message message = new Message();
-	private final Utils utils = new Utils();
+	private final Util util = new Util();
 
 	private final String logo = message.logo;
 
@@ -25,20 +25,20 @@ public class HealCmd implements CommandExecutor {
 			Player target = Bukkit.getPlayer(args[0]);
 			if(target != null && target != sender) {
 				heal(sender, target);
-				utils.sendMessage(sender, logo + utils.getColMsg("&b" + target.getName() + "&ahas been successfully heal."));
-				target.sendActionBar(logo + utils.getColMsg("&aYou have been successfully heal by &b" + sender.getName() + "&a."));
+				util.sendMessage(sender, logo + util.getColMsg("&b" + target.getName() + "&ahas been successfully heal."));
+				target.sendActionBar(logo + util.getColMsg("&aYou have been successfully heal by &b" + sender.getName() + "&a."));
 			} else if(sender instanceof Player) {
 				Player player = (Player) sender;
 				heal(sender, player);
-				player.sendActionBar(logo + utils.getColMsg("&aYou have been successfully heal."));
+				player.sendActionBar(logo + util.getColMsg("&aYou have been successfully heal."));
 			}
 		} else {
 			if(sender instanceof Player) {
 				Player player = (Player) sender;
 				heal(sender, player);
-				player.sendActionBar(logo + utils.getColMsg("&aYou have been successfully heal."));
+				player.sendActionBar(logo + util.getColMsg("&aYou have been successfully heal."));
 			} else {
-				sender.sendMessage(logo + utils.getColMsg("&cError : Missing argument."));
+				sender.sendMessage(logo + util.getColMsg("&cError : Missing argument."));
 			}
 		}
 		return true;
@@ -54,7 +54,7 @@ public class HealCmd implements CommandExecutor {
 				player.removePotionEffect(effect.getType());
 			}
 		} else {
-			utils.sendMessage(sender, logo + utils.getColMsg("&cError : &5" + player.getName() + "&c is dead."));
+			util.sendMessage(sender, logo + util.getColMsg("&cError : &5" + player.getName() + "&c is dead."));
 		}
 	}
 }
