@@ -2,7 +2,7 @@ package com.gmail.perhapsitisyeazz.yeasybasics.listeners;
 
 import com.gmail.perhapsitisyeazz.yeasybasics.YeasyBasics;
 import com.gmail.perhapsitisyeazz.yeasybasics.events.SpellCastEvent;
-import com.gmail.perhapsitisyeazz.yeasybasics.spell.Spell;
+import com.gmail.perhapsitisyeazz.yeasybasics.spell.SpellType;
 import com.gmail.perhapsitisyeazz.yeasybasics.util.Message;
 import com.gmail.perhapsitisyeazz.yeasybasics.util.Util;
 import net.md_5.bungee.api.ChatColor;
@@ -46,7 +46,6 @@ public class UtilsEvt implements Listener {
         event.setQuitMessage(util.getColMsg("&7[&ac&l-&7] " + player));
     }
 
-
     @EventHandler
     private void onChat(AsyncPlayerChatEvent event) {
         String newMessage = event.getMessage();
@@ -65,15 +64,19 @@ public class UtilsEvt implements Listener {
     @EventHandler
     private void onCastSpellFireEvent(PlayerInteractEvent event) {
         Action action = event.getAction();
-        if(action == Action.LEFT_CLICK_AIR || action == Action.LEFT_CLICK_BLOCK) {
+        if(action == Action.RIGHT_CLICK_AIR || action == Action.RIGHT_CLICK_BLOCK) {
             ItemStack item = event.getItem();
             if(item == null) return;
             ItemMeta meta = item.getItemMeta();
             PersistentDataContainer container = meta.getPersistentDataContainer();
-            NamespacedKey key = new NamespacedKey((new YeasyBasics()).getInstance(), "spell-level");
-            if(meta.hasDisplayName() && meta.hasLore() && meta.hasCustomModelData() && container.has(key, PersistentDataType.INTEGER)) {
-                int spellLevel = container.get(key, PersistentDataType.INTEGER);
-                Bukkit.getPluginManager().callEvent(new SpellCastEvent(event.getPlayer(), Spell.BUBBLE, spellLevel));
+            NamespacedKey intKey = new NamespacedKey((new YeasyBasics()).getInstance(), "spell-level");
+            NamespacedKey nameKey = new NamespacedKey((new YeasyBasics()).getInstance(), "spell-name");
+            if(meta.hasDisplayName() && meta.hasLore() && meta.hasCustomModelData()) {
+                if(container.has(intKey, PersistentDataType.INTEGER) && container.has(nameKey, PersistentDataType.STRING)) {
+                    int spellLevel = container.getOrDefault(intKey, PersistentDataType.INTEGER, 1);
+                    String spellName = container.get(nameKey, PersistentDataType.STRING);
+                    Bukkit.getPluginManager().callEvent(new SpellCastEvent(event.getPlayer(), SpellType.valueOf(spellName), spellLevel));
+                }
             }
         }
     }
