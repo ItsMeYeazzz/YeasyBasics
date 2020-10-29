@@ -13,6 +13,8 @@ public class Spells {
 	public Spell Bubble() {
 		Spell spell = new Spell(SpellType.BUBBLE);
 		spell.setName("Bubulle");
+		spell.setManaCost(35);
+		spell.setSpellMaxLevel(6);
 		return spell;
 	}
 }

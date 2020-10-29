@@ -15,7 +15,7 @@ public class CastSpellEvent implements Listener {
 
 	@EventHandler
 	private void onCastSpell(SpellCastEvent event) {
-		if(event.getSpell() == SpellType.BUBBLE) {
+		if(event.getSpell().getType() == SpellType.BUBBLE) {
 			event.getPlayer().getName();
 		}
 	}

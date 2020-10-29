@@ -2,6 +2,7 @@ package com.gmail.perhapsitisyeazz.yeasybasics.listeners;
 
 import com.gmail.perhapsitisyeazz.yeasybasics.YeasyBasics;
 import com.gmail.perhapsitisyeazz.yeasybasics.events.SpellCastEvent;
+import com.gmail.perhapsitisyeazz.yeasybasics.spell.Spell;
 import com.gmail.perhapsitisyeazz.yeasybasics.spell.SpellType;
 import com.gmail.perhapsitisyeazz.yeasybasics.util.Message;
 import com.gmail.perhapsitisyeazz.yeasybasics.util.Util;
@@ -69,13 +70,17 @@ public class UtilsEvt implements Listener {
             if(item == null) return;
             ItemMeta meta = item.getItemMeta();
             PersistentDataContainer container = meta.getPersistentDataContainer();
-            NamespacedKey intKey = new NamespacedKey((new YeasyBasics()).getInstance(), "spell-level");
-            NamespacedKey nameKey = new NamespacedKey((new YeasyBasics()).getInstance(), "spell-name");
+            YeasyBasics instance = YeasyBasics.getInstance();
+            NamespacedKey nameKey = new NamespacedKey(instance, "spell-name");
+            NamespacedKey manaKey = new NamespacedKey(instance, "mana-cost");
             if(meta.hasDisplayName() && meta.hasLore() && meta.hasCustomModelData()) {
-                if(container.has(intKey, PersistentDataType.INTEGER) && container.has(nameKey, PersistentDataType.STRING)) {
-                    int spellLevel = container.getOrDefault(intKey, PersistentDataType.INTEGER, 1);
+                if(container.has(manaKey, PersistentDataType.INTEGER) && container.has(nameKey, PersistentDataType.STRING)) {
+                    int spellManaCost = container.getOrDefault(manaKey, PersistentDataType.INTEGER, 0);
                     String spellName = container.get(nameKey, PersistentDataType.STRING);
-                    Bukkit.getPluginManager().callEvent(new SpellCastEvent(event.getPlayer(), SpellType.valueOf(spellName), spellLevel));
+                    Spell spell = new Spell(SpellType.valueOf(spellName));
+                    spell.setName(SpellType.valueOf(spellName).toString());
+                    spell.setManaCost(spellManaCost);
+                    Bukkit.getPluginManager().callEvent(new SpellCastEvent(event.getPlayer(), spell));
                 }
             }
         }

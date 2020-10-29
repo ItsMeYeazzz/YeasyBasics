@@ -1,6 +1,6 @@
 package com.gmail.perhapsitisyeazz.yeasybasics.events;
 
-import com.gmail.perhapsitisyeazz.yeasybasics.spell.SpellType;
+import com.gmail.perhapsitisyeazz.yeasybasics.spell.Spell;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
@@ -11,14 +11,12 @@ import org.jetbrains.annotations.NotNull;
 public class SpellCastEvent extends Event implements Cancellable {
 
 	private final Player player;
-	private final SpellType spell;
-	private final int spellLevel;
+	private final Spell spell;
 	private boolean isCancelled;
 
-	public SpellCastEvent(@NotNull Player player, @NotNull SpellType spell, int spellLevel) {
+	public SpellCastEvent(@NotNull Player player, @NotNull Spell spell) {
 		this.player = player;
 		this.spell = spell;
-		this.spellLevel = spellLevel;
 		this.isCancelled = false;
 	}
 
@@ -26,12 +24,8 @@ public class SpellCastEvent extends Event implements Cancellable {
 		return player;
 	}
 
-	public SpellType getSpell() {
+	public Spell getSpell() {
 		return spell;
-	}
-
-	public int getSpellLevel() {
-		return spellLevel;
 	}
 
 	private static final HandlerList handlers = new HandlerList();

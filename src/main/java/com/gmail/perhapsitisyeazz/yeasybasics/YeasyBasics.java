@@ -9,9 +9,9 @@ import java.io.File;
 
 public class YeasyBasics extends JavaPlugin {
 
-    private YeasyBasics instance;
+    private static YeasyBasics instance;
 
-    public YeasyBasics getInstance() {
+    public static YeasyBasics getInstance() {
         return instance;
     }
 
