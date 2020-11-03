@@ -3,7 +3,7 @@ package com.gmail.perhapsitisyeazz.yeasybasics.spell;
 // There is a total of 18 Spells
 
 public enum SpellType {
-	BUNNY_HOPE {
+	BUNNY_HOP {
 		@Override
 		public String toString() {
 			return "Bunny Hop";
@@ -87,7 +87,7 @@ public enum SpellType {
 			return "Peau de fer";
 		}
 	},
-	DEADLY_POISON {
+	MORTAL_POISON {
 		@Override
 		public String toString() {
 			return "Poison mortel";

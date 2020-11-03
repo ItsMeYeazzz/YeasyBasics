@@ -21,7 +21,7 @@ public class Util {
 		return false;
 	}
 
-	public String getColMsg(String string) {
-		return ChatColor.translateAlternateColorCodes('&', string);
+	public String getColMsg(String message) {
+		return ChatColor.translateAlternateColorCodes('&', message);
 	}
 }
