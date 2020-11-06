@@ -11,9 +11,6 @@ import org.jetbrains.annotations.NotNull;
 
 public class InvSeeCmd implements CommandExecutor {
 
-	private final Util util = new Util();
-	private final Message message = new Message();
-
 	@Override
 	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
 		if(args.length > 0) {
@@ -22,7 +19,7 @@ public class InvSeeCmd implements CommandExecutor {
 				Player target = Bukkit.getPlayer(args[0]);
 				if(target == null || player == target) return true;
 				player.openInventory(target.getInventory());
-				player.sendActionBar(message.logo + util.getColMsg("&2You have opened &b" + target.getName() + "&2's inventory"));
+				player.sendActionBar(Message.logo + Util.getColMsg("&2You have opened &b" + target.getName() + "&2's inventory"));
 			}
 		}
 		return true;

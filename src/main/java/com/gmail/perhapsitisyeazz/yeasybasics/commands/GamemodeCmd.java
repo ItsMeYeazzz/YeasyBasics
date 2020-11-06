@@ -13,20 +13,19 @@ import org.jetbrains.annotations.NotNull;
 public class GamemodeCmd implements CommandExecutor {
 
     private final Message message = new Message();
-    private final Util util = new Util();
 
-    private final String logo = message.logo;
+    private final String logo = Message.logo;
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if(args.length > 0) {
             GameMode gm;
-            if (util.match(args[0], "survival", "s", "0")) gm = GameMode.SURVIVAL;
-            else if(util.match(args[0], "creative", "c", "1")) gm = GameMode.CREATIVE;
-            else if(util.match(args[0], "adventure", "a", "2")) gm = GameMode.ADVENTURE;
-            else if(util.match(args[0], "spectator", "s", "3")) gm = GameMode.SPECTATOR;
+            if (Util.match(args[0], "survival", "s", "0")) gm = GameMode.SURVIVAL;
+            else if(Util.match(args[0], "creative", "c", "1")) gm = GameMode.CREATIVE;
+            else if(Util.match(args[0], "adventure", "a", "2")) gm = GameMode.ADVENTURE;
+            else if(Util.match(args[0], "spectator", "s", "3")) gm = GameMode.SPECTATOR;
             else {
-                util.sendMessage(sender, util.getColMsg(logo + "&cError : Invalid argument : '&5" + args[0] + "&c'."));
+                Util.sendMessage(sender, Util.getColMsg(logo + "&cError : Invalid argument : '&5" + args[0] + "&c'."));
                 sender.sendMessage(message.gmHelpMessage());
                 return true;
             }
@@ -56,15 +55,15 @@ public class GamemodeCmd implements CommandExecutor {
         if(target.getGameMode() != gm) {
             if(sender instanceof Player) {
                 if(sender != target) {
-                    ((Player) sender).sendActionBar(logo + util.getColMsg("&b" + sender.getName() + "&a has set your gamemode to &b" + gamemode + "&a."));
+                    ((Player) sender).sendActionBar(logo + Util.getColMsg("&b" + sender.getName() + "&a has set your gamemode to &b" + gamemode + "&a."));
                 }
             } else {
-                target.sendMessage(logo + util.getColMsg("&b" + sender.getName() + "&a has set your gamemode to &b" + gamemode + "&a."));
+                target.sendMessage(logo + Util.getColMsg("&b" + sender.getName() + "&a has set your gamemode to &b" + gamemode + "&a."));
             }
-            util.sendMessage(sender, logo + util.getColMsg("&b" + target.getName() + "&a's gamemode has been set to &b" + gamemode +"&a."));
+            Util.sendMessage(sender, logo + Util.getColMsg("&b" + target.getName() + "&a's gamemode has been set to &b" + gamemode +"&a."));
             target.setGameMode(gm);
         } else {
-            util.sendMessage(sender, logo + util.getColMsg("&3" + target.getName() + "&2 is already in &3" + gamemode + "&2."));
+            Util.sendMessage(sender, logo + Util.getColMsg("&3" + target.getName() + "&2 is already in &3" + gamemode + "&2."));
         }
     }
 }

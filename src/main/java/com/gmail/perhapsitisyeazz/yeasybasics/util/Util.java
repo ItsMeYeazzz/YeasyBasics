@@ -6,7 +6,7 @@ import org.bukkit.entity.Player;
 
 public class Util {
 
-	public void sendMessage(CommandSender sender, String message) {
+	public static void sendMessage(CommandSender sender, String message) {
 		if(sender instanceof Player) {
 			((Player) sender).sendActionBar(message);
 		} else {
@@ -14,14 +14,14 @@ public class Util {
 		}
 	}
 
-	public boolean match(String arg, String... str) {
+	public static boolean match(String arg, String... str) {
 		for (String m : str) {
 			if (m.equalsIgnoreCase(arg)) return true;
 		}
 		return false;
 	}
 
-	public String getColMsg(String message) {
+	public static String getColMsg(String message) {
 		return ChatColor.translateAlternateColorCodes('&', message);
 	}
 }

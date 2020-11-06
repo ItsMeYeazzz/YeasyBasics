@@ -1,5 +1,8 @@
 package com.gmail.perhapsitisyeazz.yeasybasics.spell;
 
+import com.gmail.perhapsitisyeazz.yeasybasics.util.Util;
+import org.apache.commons.lang.Validate;
+import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 public class Spell {
@@ -13,6 +16,7 @@ public class Spell {
 
 	public final static int NBT_TAG = 5;
 	public final static String TYPE_KEY = "type", RARITY_KEY = "rarity", LEVEL_KEY = "level", MAX_LEVEL_KEY = "max-level", MANA_COST_KEY = "mana-cost";
+	public final static String spellLogo = Util.getColMsg("&8[&3Spell&8] ");
 
 	public Spell(@NotNull SpellType type) {
 		this.type = type;
@@ -21,6 +25,17 @@ public class Spell {
 	public Spell(@NotNull SpellType type, int level) {
 		this.type = type;
 		this.level = level;
+	}
+
+	public Spell(@NotNull ItemStack itemStack) {
+		Validate.isTrue(SpellManager.isSpell(itemStack), "ItemsStack must be a spell");
+		Spell spell = SpellManager.getSpellFromItem(itemStack);
+		this.type = spell.getType();
+		this.skinValue = spell.getSkinValue();
+		this.rarity = spell.getRarity();
+		this.level = spell.getLevel();
+		this.maxLevel = spell.getMaxLevel();
+		this.manaCost = spell.getManaCost();
 	}
 
 	public void setName(@NotNull String name) {

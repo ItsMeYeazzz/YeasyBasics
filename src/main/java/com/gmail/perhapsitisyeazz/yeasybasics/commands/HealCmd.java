@@ -14,10 +14,8 @@ import org.jetbrains.annotations.NotNull;
 
 public class HealCmd implements CommandExecutor {
 
-	private final Message message = new Message();
-	private final Util util = new Util();
 
-	private final String logo = message.logo;
+	private final String logo = Message.logo;
 
 	@Override
 	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
@@ -25,20 +23,20 @@ public class HealCmd implements CommandExecutor {
 			Player target = Bukkit.getPlayer(args[0]);
 			if(target != null && target != sender) {
 				heal(sender, target);
-				util.sendMessage(sender, logo + util.getColMsg("&b" + target.getName() + "&ahas been successfully heal."));
-				target.sendActionBar(logo + util.getColMsg("&aYou have been successfully heal by &b" + sender.getName() + "&a."));
+				Util.sendMessage(sender, logo + Util.getColMsg("&b" + target.getName() + "&ahas been successfully heal."));
+				target.sendActionBar(logo + Util.getColMsg("&aYou have been successfully heal by &b" + sender.getName() + "&a."));
 			} else if(sender instanceof Player) {
 				Player player = (Player) sender;
 				heal(sender, player);
-				player.sendActionBar(logo + util.getColMsg("&aYou have been successfully heal."));
+				player.sendActionBar(logo + Util.getColMsg("&aYou have been successfully heal."));
 			}
 		} else {
 			if(sender instanceof Player) {
 				Player player = (Player) sender;
 				heal(sender, player);
-				player.sendActionBar(logo + util.getColMsg("&aYou have been successfully heal."));
+				player.sendActionBar(logo + Util.getColMsg("&aYou have been successfully heal."));
 			} else {
-				sender.sendMessage(logo + util.getColMsg("&cError : Missing argument."));
+				sender.sendMessage(logo + Util.getColMsg("&cError : Missing argument."));
 			}
 		}
 		return true;
@@ -54,7 +52,7 @@ public class HealCmd implements CommandExecutor {
 				player.removePotionEffect(effect.getType());
 			}
 		} else {
-			util.sendMessage(sender, logo + util.getColMsg("&cError : &5" + player.getName() + "&c is dead."));
+			Util.sendMessage(sender, logo + Util.getColMsg("&cError : &5" + player.getName() + "&c is dead."));
 		}
 	}
 }

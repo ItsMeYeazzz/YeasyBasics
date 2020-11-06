@@ -29,19 +29,16 @@ public class UtilsEvt implements Listener {
 		this.main = main;
 	}
 
-    private final Util util = new Util();
-    private final Message message = new Message();
-
     @EventHandler
     private void onJoin(PlayerJoinEvent event) {
         String player = event.getPlayer().getDisplayName();
-        event.setJoinMessage(util.getColMsg("&7[&a&l+&7] " + player));
+        event.setJoinMessage(Util.getColMsg("&7[&a&l+&7] " + player));
     }
 
     @EventHandler
     private void onQuit(PlayerQuitEvent event) {
         String player = event.getPlayer().getDisplayName();
-        event.setQuitMessage(util.getColMsg("&7[&ac&l-&7] " + player));
+        event.setQuitMessage(Util.getColMsg("&7[&ac&l-&7] " + player));
     }
 
     @EventHandler
@@ -52,7 +49,7 @@ public class UtilsEvt implements Listener {
             if(event.getMessage().contains(player.getName())) {
                 ChatColor color = ChatColor.of(ChatColor.of(event.getMessage()).getColor());
                 newMessage = newMessage.replaceAll(player.getName(), ChatColor.AQUA + player.getName() + color);
-                player.sendActionBar(message.logo + util.getColMsg("&b" + event.getPlayer().getName() + " &7has pinged you in the chat."));
+                player.sendActionBar(Message.logo + Util.getColMsg("&b" + event.getPlayer().getName() + " &7has pinged you in the chat."));
                 player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1F, 1F);
             }
         }
@@ -66,8 +63,7 @@ public class UtilsEvt implements Listener {
             ItemStack item = event.getItem();
             if(item == null) return;
             if(SpellManager.isSpell(item)) {
-                Spell spell = SpellManager.getSpellFromItem(item);
-                if (spell == null) return;
+                Spell spell = new Spell(item);
                 Bukkit.getPluginManager().callEvent(new SpellCastEvent(event.getPlayer(), spell));
             }
         }
@@ -76,7 +72,7 @@ public class UtilsEvt implements Listener {
     @EventHandler
     private void onPlaceSpell(BlockPlaceEvent event) {
         ItemStack item = event.getItemInHand();
-        if(item.getType() == Material.PLAYER_HEAD || item.getType() == Material.PLAYER_WALL_HEAD) {
+        if(item.getType() == Material.PLAYER_HEAD) {
             ItemMeta meta = item.getItemMeta();
             if(meta.hasDisplayName() && meta.hasLore()) {
                 event.setCancelled(true);

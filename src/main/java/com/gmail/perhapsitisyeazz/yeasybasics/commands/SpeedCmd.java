@@ -10,12 +10,9 @@ import org.jetbrains.annotations.NotNull;
 
 public class SpeedCmd implements CommandExecutor {
 
-	private final Message message = new Message();
-	private final Util util = new Util();
-
 	@Override
 	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-		String logo = message.logo;
+		String logo = Message.logo;
 		if(sender instanceof Player) {
 			Player player = (Player) sender;
 			if(args.length > 0) {
@@ -35,21 +32,21 @@ public class SpeedCmd implements CommandExecutor {
 							speed = player.getWalkSpeed();
 						}
 						if(f != speed) {
-							player.sendActionBar(logo + util.getColMsg("&aYour&b" + str + "&a speed has been set to &b" + args[0] + "&a."));
+							player.sendActionBar(logo + Util.getColMsg("&aYour&b" + str + "&a speed has been set to &b" + args[0] + "&a."));
 						} else {
-							player.sendActionBar(logo + util.getColMsg("&aYour&b" + str + "&a speed is already &b" + args[0] + "&a."));
+							player.sendActionBar(logo + Util.getColMsg("&aYour&b" + str + "&a speed is already &b" + args[0] + "&a."));
 						}
 					} else {
-						player.sendActionBar(logo + util.getColMsg("&cError : Invalid number : '&5" + args[0] + "&c', it must be between 0 and 10."));
+						player.sendActionBar(logo + Util.getColMsg("&cError : Invalid number : '&5" + args[0] + "&c', it must be between 0 and 10."));
 					}
 				} catch (NumberFormatException e) {
-					player.sendActionBar(logo + util.getColMsg("&cError : Invalid number : '&5" + args[0] + "&c'."));
+					player.sendActionBar(logo + Util.getColMsg("&cError : Invalid number : '&5" + args[0] + "&c'."));
 				}
 			} else {
-				player.sendActionBar(logo + util.getColMsg("&cError : Missing number argument."));
+				player.sendActionBar(logo + Util.getColMsg("&cError : Missing number argument."));
 			}
 		} else {
-			sender.sendMessage(logo + util.getColMsg("&cError : Player-only command."));
+			sender.sendMessage(logo + Util.getColMsg("&cError : Player-only command."));
 		}
 		return true;
 	}

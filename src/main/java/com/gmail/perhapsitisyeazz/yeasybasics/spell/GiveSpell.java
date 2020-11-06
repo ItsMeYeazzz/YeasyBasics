@@ -1,5 +1,7 @@
 package com.gmail.perhapsitisyeazz.yeasybasics.spell;
 
+import org.bukkit.inventory.ItemStack;
+
 public class GiveSpell {
 	/*
 	NamespacedKey nk = new NamespacedKey((new YeasyBasics()).getInstance(), "spell-level");

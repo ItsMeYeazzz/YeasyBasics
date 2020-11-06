@@ -7,7 +7,6 @@ import de.tr7zw.nbtapi.NBTListCompound;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
 import java.util.List;
@@ -16,12 +15,16 @@ import java.util.List;
 public class SpellManager {
 
 	private final Util util = new Util();
-	
-	private final List<Spell> spellList = Arrays.asList(
+
+	protected final List<Spell> spellList = Arrays.asList(
 			bunnyHop(), bubble(), giftOfRage(), royalDinner(), vitalDischarge(),
 			solarGlow(), nocturnalHymn(), flash(), pyroWave(), levitation(),
 			yumYum(), ninja(), shockWave(), ironSkin(), mortalPoison(),
 			metallicBurst(), revitalization());
+
+	public String sendSpellMessage(Spell spell) {
+		return util.getColMsg("You have used " + spell.getLevel() + ".");
+	}
 
 	public static boolean isSpell(ItemStack item) {
 		ItemMeta meta = item.getItemMeta();
@@ -43,9 +46,7 @@ public class SpellManager {
 		nbtItem.applyNBT(item);
 	}
 
-	@Nullable
 	public static Spell getSpellFromItem(ItemStack item) {
-		if(!isSpell(item)) return null;
 		NBTItem nbtItem = new NBTItem(item);
 		String type = nbtItem.getString(Spell.TYPE_KEY), rarity = nbtItem.getString(Spell.RARITY_KEY);
 		int level = nbtItem.getInteger(Spell.LEVEL_KEY), maxLevel = nbtItem.getInteger(Spell.MAX_LEVEL_KEY), manaCost = nbtItem.getInteger(Spell.MANA_COST_KEY);
