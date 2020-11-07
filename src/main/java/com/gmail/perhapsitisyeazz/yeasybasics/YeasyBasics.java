@@ -28,9 +28,10 @@ public class YeasyBasics extends JavaPlugin {
         this.getServer().getPluginManager().registerEvents(new CastSpellEvent(this), this);
         this.getCommand("gamemode").setExecutor(new GamemodeCmd());
         this.getCommand("heal").setExecutor(new HealCmd());
-        this.getCommand("speed").setExecutor(new SpeedCmd());
-        this.getCommand("time").setExecutor(new TimeCmd());
         this.getCommand("invsee").setExecutor(new InvSeeCmd());
+        this.getCommand("speed").setExecutor(new SpeedCmd());
+        this.getCommand("spell").setExecutor(new SpellCommand());
+        this.getCommand("time").setExecutor(new TimeCmd());
     }
 
     @Override

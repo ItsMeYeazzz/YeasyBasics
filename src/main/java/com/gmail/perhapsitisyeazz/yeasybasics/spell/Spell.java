@@ -83,7 +83,7 @@ public class Spell {
 	}
 
 	public int getMaxLevel() {
-		return (Math.max(this.maxLevel, 0));
+		return (Math.max(this.maxLevel, 3));
 	}
 
 	public void setManaCost(int manaCost) {

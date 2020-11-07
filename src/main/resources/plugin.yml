@@ -17,18 +17,23 @@ commands:
     permission: heal
     permission-message: You do not have the permission to use this command.
     usage: /<command> <player>
-  speed:
-    description: Allows you to change your walk/fly speed
-    permission: speed
-    permission-message: You do not have the permission to use this command.
-    usage: /<command> <float>
-  time:
-    description: Allows you to change the time of a world.
-    permission: time
-    permission-message: You do not have the permission to use this command.
-    usage: /<command> <string> <world> <time>
   invsee:
     description: Allows you to see and manage a player's inventory
     permission: invsee
     permission-message: You do not have the permission to use this command.
     usage: /<command> <player>
+  speed:
+    description: Allows you to change your walk/fly speed
+    permission: speed
+    permission-message: You do not have the permission to use this command.
+    usage: /<command> <float>
+  spell:
+    description: Set a spell to an item.
+    permission: spell
+    permission-message: You do not have the permission to use this command.
+    usage: /<command>
+  time:
+    description: Allows you to change the time of a world.
+    permission: time
+    permission-message: You do not have the permission to use this command.
+    usage: /<command> <string> <world> <time>
