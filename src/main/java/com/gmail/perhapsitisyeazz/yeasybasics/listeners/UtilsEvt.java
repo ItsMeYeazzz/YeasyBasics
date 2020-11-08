@@ -31,13 +31,13 @@ public class UtilsEvt implements Listener {
 
     @EventHandler
     private void onJoin(PlayerJoinEvent event) {
-        String player = event.getPlayer().getCustomName();
+        String player = event.getPlayer().getDisplayName();
         event.setJoinMessage(Util.getColMsg("&7[&a&l+&7] " + player));
     }
 
     @EventHandler
     private void onQuit(PlayerQuitEvent event) {
-        String player = event.getPlayer().getCustomName();
+        String player = event.getPlayer().getDisplayName();
         event.setQuitMessage(Util.getColMsg("&7[&c&l-&7] " + player));
     }
 
