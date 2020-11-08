@@ -219,4 +219,13 @@ public class SpellManager {
 		spell.setManaCost(30);
 		return spell;
 	}
+
+	public Spell rageOfTheWarrior() {
+		Spell spell = new Spell(SpellType.RAGE_OF_THE_WARRIOR);
+		spell.setRarity(Rarity.EPIC);
+		spell.setSkinValue("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODMxNTJiMzhkYzE0MjU4OGQxNGZkZDM4YWFhMGI1NGU2MTM4NjBmN2QxNTM5NTM1YjMyYzAxZWIyMjBmZTY3YiJ9fX0=");
+		spell.setName(Util.getColMsg("&dWarrior &3[&bLvl." + spell.getLevel() + "&3]"));
+		spell.setManaCost(45);
+		return spell;
+	}
 }
