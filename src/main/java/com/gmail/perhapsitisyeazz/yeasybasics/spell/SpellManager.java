@@ -22,7 +22,7 @@ public class SpellManager {
 			metallicBurst(), revitalization());
 
 	public String sendSpellMessage(Spell spell) {
-		return Spell.spellLogo + Util.getColMsg("You have used " + spell.getLevel() + ".");
+		return Spell.spellLogo + Util.getColMsg("You have used " + spell.getName() + ".");
 	}
 
 	public static boolean isSpell(ItemStack item) {

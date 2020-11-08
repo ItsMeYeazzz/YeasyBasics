@@ -79,12 +79,12 @@ public class CastSpellEvent implements Listener {
 			}
 			player.playSound(location, Sound.ENTITY_SPLASH_POTION_BREAK, 1, 1);
 		} else if(type == SpellType.SOLAR_GLOW) {
-			player.playSound(location, Sound.ENTITY_LIGHTNING_BOLT_THUNDER, 3, 1);
 			ArrayList<Entity> nearbyMonsters = getNearbyMonsters(player, 15, 15);
 			if(nearbyMonsters.isEmpty()) {
 				player.sendActionBar(Spell.spellLogo + Util.getColMsg("&cError : There are no monster near."));
 				return;
 			}
+			player.playSound(location, Sound.ENTITY_LIGHTNING_BOLT_THUNDER, 3, 1);
 			for(int i = 0; i < 2; i++) {
 				BukkitRunnable runnable;
 				runnable = new BukkitRunnable() {

@@ -22,7 +22,7 @@ public class YeasyBasics extends JavaPlugin {
         instance = this;
         if(!spellFile.exists()) {
             boolean wasCreated = spellFile.mkdirs();
-            getLogger().warning("Directory creation " + (wasCreated ? "successful" : "failed") + ".");
+            getLogger().warning("Directory creation " + (wasCreated ? "successful." : "failed."));
         }
         this.getServer().getPluginManager().registerEvents(new UtilsEvt(this), this);
         this.getServer().getPluginManager().registerEvents(new CastSpellEvent(this), this);
