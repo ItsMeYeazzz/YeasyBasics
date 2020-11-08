@@ -2,7 +2,7 @@ package com.gmail.perhapsitisyeazz.yeasybasics.commands;
 
 import com.gmail.perhapsitisyeazz.yeasybasics.spell.Spell;
 import com.gmail.perhapsitisyeazz.yeasybasics.spell.SpellManager;
-import com.gmail.perhapsitisyeazz.yeasybasics.spell.SpellType;
+import com.gmail.perhapsitisyeazz.yeasybasics.util.Util;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -17,13 +17,15 @@ public class SpellCommand implements CommandExecutor {
 
 	@Override
 	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-		if(args.length == 0) {
-			if(sender instanceof Player) {
-				Player player = (Player) sender;
+		if(sender instanceof Player) {
+			Player player = (Player) sender;
+			if (args.length > 0) {
 				ItemStack item = player.getInventory().getItemInMainHand();
-				if(item.getType() == Material.AIR)
+				if (item.getType() == Material.AIR)
 					return true;
-				SpellManager.setSpellToItem(item, SM.solarGlow());
+				SpellManager.setSpellToItem(item, parseSpell(args[0]));
+			} else {
+				player.sendActionBar(Spell.spellLogo + Util.getColMsg("&cError : You must enter an argument."));
 			}
 		}
 		return true;
@@ -48,6 +50,6 @@ public class SpellCommand implements CommandExecutor {
 		if(spell.equalsIgnoreCase("METALLIC_BURST")) return SM.metallicBurst();
 		if(spell.equalsIgnoreCase("REVITALIZATION")) return SM.revitalization();
 		if(spell.equalsIgnoreCase("RAGE_OF_THE_WARRIOR")) return SM.rageOfTheWarrior();
-		else return new Spell(SpellType.SOLAR_GLOW);
+		else return SM.solarGlow();
 	}
 }
