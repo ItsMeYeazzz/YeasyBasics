@@ -30,7 +30,7 @@ public class CastSpellEvent implements Listener {
 
 	@EventHandler
 	private void onCastSpell(SpellCastEvent event) {
-		YeasyBasics instance = new YeasyBasics();
+		YeasyBasics instance = YeasyBasics.getInstance();
 		Player player = event.getPlayer();
 		Spell spell = event.getSpell();
 		SpellType type = spell.getType();
