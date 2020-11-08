@@ -113,7 +113,7 @@ public class SpellManager {
 	}
 
 	public Spell solarGlow() {
-		Spell spell = new Spell(SpellType.SOLAR_GLOW);
+		Spell spell = new Spell(SpellType.SOLAR_GLOW, 1);
 		spell.setRarity(Rarity.EPIC);
 		spell.setSkinValue("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODI5Y2EzY2VjODQwMWNhZmUyN2EzN2ZlNjAxZWUwZTMzM2IwZjUyMWI2NWI5YTczMWU0MjRmZjZhYTFhNGI0NCJ9fX0=");
 		spell.setName(Util.getColMsg("&eÉclat Solaire &3[&bLvl. " + spell.getLevel() + "&3]"));
