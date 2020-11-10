@@ -2,16 +2,23 @@ package com.gmail.perhapsitisyeazz.yeasybasics.commands;
 
 import com.gmail.perhapsitisyeazz.yeasybasics.spell.Spell;
 import com.gmail.perhapsitisyeazz.yeasybasics.spell.SpellManager;
+import com.gmail.perhapsitisyeazz.yeasybasics.spell.SpellType;
 import com.gmail.perhapsitisyeazz.yeasybasics.util.Util;
+import de.tr7zw.nbtapi.NBTItem;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-public class SpellCommand implements CommandExecutor {
+import java.util.ArrayList;
+import java.util.List;
+
+public class SpellCommand implements CommandExecutor, TabCompleter {
 
 	private final SpellManager SM = new SpellManager();
 
@@ -21,14 +28,32 @@ public class SpellCommand implements CommandExecutor {
 			Player player = (Player) sender;
 			if (args.length > 0) {
 				ItemStack item = player.getInventory().getItemInMainHand();
-				if (item.getType() == Material.AIR)
-					return true;
-				SpellManager.setSpellToItem(item, parseSpell(args[0]));
+				if(args[0].equalsIgnoreCase("nbt")) {
+					NBTItem nbtItem = new NBTItem(item);
+					player.sendMessage(nbtItem.toString());
+				} else if(args[0].equalsIgnoreCase("menu")) {
+					player.openInventory(SM.spellMenu());
+				} else {
+					if (item.getType() == Material.AIR)
+						return true;
+					SpellManager.setSpellToItem(item, parseSpell(args[0]));
+				}
 			} else {
 				player.sendActionBar(Spell.spellLogo + Util.getColMsg("&cError : You must enter an argument."));
 			}
 		}
 		return true;
+	}
+
+	@Override
+	public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+		if(args.length > 0) {
+			ArrayList<String> arrayList = new ArrayList<>();
+			for (SpellType type : SpellType.values()) {
+				arrayList.add(type.name());
+			}
+			return arrayList;
+		} else return null;
 	}
 
 	private Spell parseSpell(String spell) {

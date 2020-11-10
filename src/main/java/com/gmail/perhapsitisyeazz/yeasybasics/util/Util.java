@@ -1,8 +1,13 @@
 package com.gmail.perhapsitisyeazz.yeasybasics.util;
 
 import net.md_5.bungee.api.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+
+import java.util.Arrays;
 
 public class Util {
 
@@ -23,5 +28,13 @@ public class Util {
 
 	public static String getColMsg(String message) {
 		return ChatColor.translateAlternateColorCodes('&', message);
+	}
+
+	public static ItemStack createGuiItem(ItemStack item, String name, final String... lore) {
+		final ItemMeta meta = item.getItemMeta();
+		meta.setDisplayName(name);
+		meta.setLore(Arrays.asList(lore));
+		item.setItemMeta(meta);
+		return item;
 	}
 }
