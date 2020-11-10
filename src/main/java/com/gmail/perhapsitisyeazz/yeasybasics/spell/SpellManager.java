@@ -4,7 +4,6 @@ import com.gmail.perhapsitisyeazz.yeasybasics.util.Util;
 import de.tr7zw.nbtapi.NBTCompound;
 import de.tr7zw.nbtapi.NBTItem;
 import de.tr7zw.nbtapi.NBTListCompound;
-import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
@@ -69,7 +68,7 @@ public class SpellManager {
 			ItemStack item = new ItemStack(Material.PLAYER_HEAD, 1);
 			NBTItem nbtItem = new NBTItem(item);
 			setSkinNBT(nbtItem, spell.getSkinValue());
-			inv.addItem(Util.createGuiItem(item, spell.getName(), "", ChatColor.AQUA + "Mana cost : " + spell.getManaCost(), "", r.color + r.toString() + " SPELL"));
+			inv.addItem(Util.createGuiItem(item, spell.getName(), "", Util.getColMsg("&bMana cost : ") + spell.getManaCost(), "", Util.getColMsg(r.color + r.toString() + " SPELL")));
 		}
 		return inv;
 	}
