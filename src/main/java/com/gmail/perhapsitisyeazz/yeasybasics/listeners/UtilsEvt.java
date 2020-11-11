@@ -9,11 +9,13 @@ import com.gmail.perhapsitisyeazz.yeasybasics.util.Util;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.entity.EntitySpawnEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -72,5 +74,11 @@ public class UtilsEvt implements Listener {
         ItemStack item = event.getItemInHand();
         if(SpellManager.isSpell(item))
             event.setCancelled(true);
+    }
+
+    @EventHandler
+    private void onXpSpawn(EntitySpawnEvent event) {
+	    if(event.getEntity().getType() == EntityType.EXPERIENCE_ORB)
+	        event.setCancelled(true);
     }
 }

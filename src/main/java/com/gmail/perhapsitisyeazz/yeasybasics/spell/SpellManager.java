@@ -28,10 +28,10 @@ public class SpellManager {
 
 	public static boolean isSpell(ItemStack item) {
 		ItemMeta meta = item.getItemMeta();
-		return meta.hasCustomModelData() && meta.getCustomModelData() == Spell.NBT_TAG;
+		return meta.hasCustomModelData() && meta.getCustomModelData() == Spell.NBT_TAG && item.getType() == Material.PLAYER_HEAD;
 	}
 
-	public static void setSpellToItem(ItemStack item, Spell spell) {
+	public static ItemStack setSpellToItem(ItemStack item, Spell spell) {
 		ItemMeta meta = item.getItemMeta();
 		if(!meta.hasDisplayName())
 			meta.setDisplayName(spell.getName());
@@ -45,6 +45,17 @@ public class SpellManager {
 		nbtItem.setInteger(Spell.LEVEL_KEY, spell.getLevel());
 		nbtItem.setInteger(Spell.MAX_LEVEL_KEY, spell.getMaxLevel());
 		nbtItem.setInteger(Spell.MANA_COST_KEY, spell.getManaCost());
+		nbtItem.applyNBT(item);
+		return item;
+	}
+
+	public static void setLevelToItem(ItemStack item, int level) {
+		Spell spell = getSpellFromItem(item);
+		if(level > spell.getMaxLevel())
+			return;
+		spell.setLevel(level);
+		NBTItem nbtItem = new NBTItem(item);
+		nbtItem.setInteger(Spell.LEVEL_KEY, level);
 		nbtItem.applyNBT(item);
 	}
 

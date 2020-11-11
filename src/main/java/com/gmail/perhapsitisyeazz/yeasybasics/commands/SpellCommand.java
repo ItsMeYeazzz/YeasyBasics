@@ -26,28 +26,39 @@ public class SpellCommand implements CommandExecutor, TabCompleter {
 	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
 		if(sender instanceof Player) {
 			Player player = (Player) sender;
-			if (args.length > 0) {
+			if(args.length > 0) {
 				ItemStack item = player.getInventory().getItemInMainHand();
 				if(args[0].equalsIgnoreCase("nbt")) {
 					NBTItem nbtItem = new NBTItem(item);
 					player.sendMessage(nbtItem.toString());
-				} else if(args[0].equalsIgnoreCase("menu")) {
+				} else if(args[0].equalsIgnoreCase("menu"))
 					player.openInventory(SM.spellMenu());
+				else if(args[0].equalsIgnoreCase("setLevel")) {
+					if(args.length > 1) {
+						try {
+							int level = Integer.parseInt(args[1]);
+							SpellManager.setLevelToItem(item, level);
+						} catch (NumberFormatException ignored) {
+							player.sendMessage(Spell.spellLogo + Util.getColMsg("&cError : You must enter an integer at argument 2."));
+						}
+					} else
+						player.sendMessage(Spell.spellLogo + Util.getColMsg("&cError : You must enter an integer at argument 2."));
 				} else {
+					ItemStack newItem = SpellManager.setSpellToItem(item, parseSpell(args[0]));
 					if (item.getType() == Material.AIR)
-						return true;
-					SpellManager.setSpellToItem(item, parseSpell(args[0]));
+						player.getInventory().setItemInMainHand(newItem);
+					else
+						player.getInventory().addItem(newItem);
 				}
-			} else {
+			} else
 				player.sendActionBar(Spell.spellLogo + Util.getColMsg("&cError : You must enter an argument."));
-			}
 		}
 		return true;
 	}
 
 	@Override
 	public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-		if(args.length > 0) {
+		if(args.length == 0) {
 			ArrayList<String> arrayList = new ArrayList<>();
 			for (SpellType type : SpellType.values()) {
 				arrayList.add(type.name());
