@@ -79,7 +79,7 @@ public class CastSpellEvent implements Listener {
 			}
 			player.playSound(location, Sound.ENTITY_SPLASH_POTION_BREAK, 1.0F, 1.0F);
 		} else if(type == SpellType.SOLAR_GLOW) {
-			ArrayList<Entity> nearbyMonsters = getNearbyMonsters(player, 15.0D, 15);
+			ArrayList<Monster> nearbyMonsters = getNearbyMonsters(player, 15.0D, 15);
 			if(nearbyMonsters.isEmpty()) {
 				player.sendActionBar(Spell.spellLogo + Util.getColMsg("&cError : There are no monster near."));
 				return;
@@ -90,9 +90,9 @@ public class CastSpellEvent implements Listener {
 				runnable = new BukkitRunnable() {
 					@Override
 					public void run() {
-						for (Entity loopMonster : nearbyMonsters) {
+						for (Monster loopMonster : nearbyMonsters) {
 							player.getWorld().strikeLightningEffect(loopMonster.getLocation());
-							player.damage(5.0D, loopMonster);
+							loopMonster.damage(13.0D, player);
 						}
 					}
 				};
@@ -101,22 +101,22 @@ public class CastSpellEvent implements Listener {
 		}
 	}
 
-	public ArrayList<Entity> getNearbyMonsters(Player player, double range) {
-		ArrayList<Entity> nearby = new ArrayList<>();
+	public ArrayList<Monster> getNearbyMonsters(Player player, double range) {
+		ArrayList<Monster> nearby = new ArrayList<>();
 		for(Entity e : player.getNearbyEntities(range, range, range)){
 			if(e instanceof Monster){
-				nearby.add(e);
+				nearby.add((Monster) e);
 			}
 		}
 		return nearby;
 	}
 
-	public ArrayList<Entity> getNearbyMonsters(Player player, double range, int limit) {
-		ArrayList<Entity> nearby = new ArrayList<>();
+	public ArrayList<Monster> getNearbyMonsters(Player player, double range, int limit) {
+		ArrayList<Monster> nearby = new ArrayList<>();
 		for(Entity e : player.getNearbyEntities(range, range, range)){
 			if(e instanceof Monster){
 				if(nearby.size() < limit)
-					nearby.add(e);
+					nearby.add((Monster) e);
 				else
 					break;
 			}
