@@ -68,7 +68,7 @@ public class SpellManager {
 			ItemStack item = new ItemStack(Material.PLAYER_HEAD, 1);
 			NBTItem nbtItem = new NBTItem(item);
 			setSkinNBT(nbtItem, spell.getSkinValue());
-			inv.addItem(Util.createGuiItem(item, spell.getName(), "", Util.getColMsg("&bMana cost : ") + spell.getManaCost(), "", Util.getColMsg(r.color + r.toString() + " SPELL")));
+			inv.addItem(Util.createGuiItem(item, spell.getName(), "", Util.getColMsg("&bMana cost : ") + spell.getManaCost(), "", Util.getColMsg(r.color + "&l" + r.toString() + " SPELL")));
 		}
 		return inv;
 	}
