@@ -104,9 +104,8 @@ public class CastSpellEvent implements Listener {
 	public ArrayList<Monster> getNearbyMonsters(Player player, double range) {
 		ArrayList<Monster> nearby = new ArrayList<>();
 		for(Entity e : player.getNearbyEntities(range, range, range)){
-			if(e instanceof Monster){
+			if(e instanceof Monster)
 				nearby.add((Monster) e);
-			}
 		}
 		return nearby;
 	}

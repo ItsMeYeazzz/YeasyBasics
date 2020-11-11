@@ -43,7 +43,8 @@ public class UtilsEvt implements Listener {
     private void onChat(AsyncPlayerChatEvent event) {
         String newMessage = event.getMessage();
         for(Player player : Bukkit.getOnlinePlayers()) {
-            if(player == event.getPlayer()) continue;
+            if(player == event.getPlayer())
+                continue;
             if(event.getMessage().contains(player.getName())) {
                 ChatColor color = ChatColor.of(ChatColor.of(event.getMessage()).getColor());
                 newMessage = newMessage.replaceAll(player.getName(), ChatColor.AQUA + player.getName() + color);
@@ -59,11 +60,10 @@ public class UtilsEvt implements Listener {
         Action action = event.getAction();
         if(action == Action.RIGHT_CLICK_AIR || action == Action.RIGHT_CLICK_BLOCK) {
             ItemStack item = event.getItem();
-            if(item == null) return;
-            if(SpellManager.isSpell(item)) {
-                Spell spell = new Spell(item);
-                Bukkit.getPluginManager().callEvent(new SpellCastEvent(event.getPlayer(), spell));
-            }
+            if(item == null)
+                return;
+            if(SpellManager.isSpell(item))
+                Bukkit.getPluginManager().callEvent(new SpellCastEvent(event.getPlayer(), new Spell(item)));
         }
     }
 

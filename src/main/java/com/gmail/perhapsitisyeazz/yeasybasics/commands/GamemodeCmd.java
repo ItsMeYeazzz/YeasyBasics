@@ -54,16 +54,13 @@ public class GamemodeCmd implements CommandExecutor {
         String gamemode = gm.name().toLowerCase();
         if(target.getGameMode() != gm) {
             if(sender instanceof Player) {
-                if(sender != target) {
+                if(sender != target)
                     ((Player) sender).sendActionBar(logo + Util.getColMsg("&b" + sender.getName() + "&a has set your gamemode to &b" + gamemode + "&a."));
-                }
-            } else {
+            } else
                 target.sendMessage(logo + Util.getColMsg("&b" + sender.getName() + "&a has set your gamemode to &b" + gamemode + "&a."));
-            }
             Util.sendMessage(sender, logo + Util.getColMsg("&b" + target.getName() + "&a's gamemode has been set to &b" + gamemode +"&a."));
             target.setGameMode(gm);
-        } else {
+        } else
             Util.sendMessage(sender, logo + Util.getColMsg("&3" + target.getName() + "&2 is already in &3" + gamemode + "&2."));
-        }
     }
 }

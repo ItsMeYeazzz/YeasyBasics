@@ -1,7 +1,6 @@
 package com.gmail.perhapsitisyeazz.yeasybasics.util;
 
 import net.md_5.bungee.api.ChatColor;
-import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -21,7 +20,8 @@ public class Util {
 
 	public static boolean match(String arg, String... str) {
 		for (String m : str) {
-			if (m.equalsIgnoreCase(arg)) return true;
+			if (m.equalsIgnoreCase(arg))
+				return true;
 		}
 		return false;
 	}
@@ -31,7 +31,7 @@ public class Util {
 	}
 
 	public static ItemStack createGuiItem(ItemStack item, String name, final String... lore) {
-		final ItemMeta meta = item.getItemMeta();
+		ItemMeta meta = item.getItemMeta();
 		meta.setDisplayName(name);
 		meta.setLore(Arrays.asList(lore));
 		item.setItemMeta(meta);

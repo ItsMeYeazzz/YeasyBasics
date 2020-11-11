@@ -11,15 +11,11 @@ public enum SpellType {
 	},
 	BUBBLE {
 		@Override
-		public String toString() {
-			return "Bubulle";
-		}
+		public String toString() { return "Bubulle"; }
 	},
 	GIFT_OF_RAGE {
 		@Override
-		public String toString() {
-			return "Don de rage";
-		}
+		public String toString() { return "Don de rage"; }
 	},
 	ROYAL_DINNER {
 		@Override

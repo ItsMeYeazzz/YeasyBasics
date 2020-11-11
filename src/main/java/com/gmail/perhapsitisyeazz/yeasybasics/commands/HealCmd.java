@@ -35,9 +35,8 @@ public class HealCmd implements CommandExecutor {
 				Player player = (Player) sender;
 				heal(sender, player);
 				player.sendActionBar(logo + Util.getColMsg("&aYou have been successfully heal."));
-			} else {
+			} else
 				sender.sendMessage(logo + Util.getColMsg("&cError : Missing argument."));
-			}
 		}
 		return true;
 	}
@@ -45,14 +44,14 @@ public class HealCmd implements CommandExecutor {
 	private void heal(CommandSender sender, Player player) {
 		if(player.getHealth() != 0) {
 			AttributeInstance targetAttribute = player.getAttribute(Attribute.GENERIC_MAX_HEALTH);
-			if (targetAttribute != null) player.setHealth(targetAttribute.getValue());
+			if (targetAttribute != null)
+				player.setHealth(targetAttribute.getValue());
 			player.setFoodLevel(20);
 			player.setFireTicks(0);
 			for (PotionEffect effect : player.getActivePotionEffects()) {
 				player.removePotionEffect(effect.getType());
 			}
-		} else {
+		} else
 			Util.sendMessage(sender, logo + Util.getColMsg("&cError : &5" + player.getName() + "&c is dead."));
-		}
 	}
 }

@@ -50,11 +50,10 @@ public class TimeCmd implements CommandExecutor {
 							player.sendActionBar(logo + Util.getColMsg("&cError : Invalid number/string : '&5" + args[1] + "&c'."));
 						}
 					} else {
-						if(world(args[1]) != null) {
+						if(world(args[1]) != null)
 							sender.sendMessage(logo + Util.getColMsg("&cError : You must put a time at argument 2."));
-						} else {
+						else
 							sender.sendMessage(logo + Util.getColMsg("&cError : Invalid world : '&5" + args[1] + "&c'."));
-						}
 					}
 				}
 				if(args.length >= 3) {

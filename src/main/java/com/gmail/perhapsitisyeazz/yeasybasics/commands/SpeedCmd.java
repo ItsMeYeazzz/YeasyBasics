@@ -31,23 +31,19 @@ public class SpeedCmd implements CommandExecutor {
 							str = " walk";
 							speed = player.getWalkSpeed();
 						}
-						if(f != speed) {
+						if(f != speed)
 							player.sendActionBar(logo + Util.getColMsg("&aYour&b" + str + "&a speed has been set to &b" + args[0] + "&a."));
-						} else {
+						else
 							player.sendActionBar(logo + Util.getColMsg("&aYour&b" + str + "&a speed is already &b" + args[0] + "&a."));
-						}
-					} else {
+					} else
 						player.sendActionBar(logo + Util.getColMsg("&cError : Invalid number : '&5" + args[0] + "&c', it must be between 0 and 10."));
-					}
 				} catch (NumberFormatException e) {
 					player.sendActionBar(logo + Util.getColMsg("&cError : Invalid number : '&5" + args[0] + "&c'."));
 				}
-			} else {
+			} else
 				player.sendActionBar(logo + Util.getColMsg("&cError : Missing number argument."));
-			}
-		} else {
+		} else
 			sender.sendMessage(logo + Util.getColMsg("&cError : Player-only command."));
-		}
 		return true;
 	}
 }
