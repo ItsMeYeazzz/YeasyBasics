@@ -38,19 +38,19 @@ public class CastSpellEvent implements Listener {
 		Location location = player.getLocation();
 		player.sendActionBar(SM.sendSpellMessage(spell));
 		if (type == SpellType.BUNNY_HOP) {
-			int duration = level * 5;
+			int duration = level * 5 * 20;
 			int amplifier = level - 1;
 			PotionEffect effect = new PotionEffect(PotionEffectType.JUMP, duration, amplifier, false, false, false);
 			player.addPotionEffect(effect);
-			player.playSound(location, Sound.ENTITY_RABBIT_HURT, 1, 1);
+			player.playSound(location, Sound.ENTITY_RABBIT_HURT, 1.0F, 1.0F);
 		} else if(type == SpellType.BUBBLE) {
-			player.playSound(location, Sound.BLOCK_BUBBLE_COLUMN_BUBBLE_POP, 1, 1);
+			player.playSound(location, Sound.BLOCK_BUBBLE_COLUMN_BUBBLE_POP, 1.0F, 1.0F);
 		} else if(type == SpellType.GIFT_OF_RAGE) {
-			int duration = level * 4;
+			int duration = level * 4 * 20;
 			int amplifier = level - 1;
 			PotionEffect effect = new PotionEffect(PotionEffectType.INCREASE_DAMAGE, duration, amplifier, false, false, false);
 			player.addPotionEffect(effect);
-			player.playSound(location, Sound.ENTITY_ENDER_DRAGON_GROWL, 1, 1);
+			player.playSound(location, Sound.ENTITY_ENDER_DRAGON_GROWL, 1.0F, 1.0F);
 		} else if(type == SpellType.ROYAL_DINNER) {
 			for(Player loopPlayer : getNearbyPlayers(player, 8)) {
 				loopPlayer.sendActionBar(Util.getColMsg("&2You have been feed by &b" + player.getName()));
@@ -63,28 +63,28 @@ public class CastSpellEvent implements Listener {
 					runnable = new BukkitRunnable() {
 						@Override
 						public void run() {
-							player.playSound(location, Sound.ENTITY_GENERIC_EAT, 1, 1);
+							player.playSound(location, Sound.ENTITY_GENERIC_EAT, 1.0F, 1.0F);
 						}
 					};
 					runnable.runTaskLater(instance, 5*i);
 				}
 			}
 		} else if(type == SpellType.VITAL_DISCHARGE) {
-			ArrayList<Player> nearbyPlayers = getNearbyPlayers(player, 8, 12);
+			ArrayList<Player> nearbyPlayers = getNearbyPlayers(player, 8.0D, 12);
 			int size = nearbyPlayers.size();
 			for(Player loopPlayer : nearbyPlayers) {
 				loopPlayer.sendActionBar(Util.getColMsg("&2You have been heal by &b" + player.getName()));
-				double health = loopPlayer.getHealth() + 5 * level * (1 - (size > 2 ? (size-2)/10F : 0));
+				double health = loopPlayer.getHealth() + 5 * level * (1 - (size > 2 ? (size-2)/10.0F : 0));
 				loopPlayer.setHealth(health);
 			}
-			player.playSound(location, Sound.ENTITY_SPLASH_POTION_BREAK, 1, 1);
+			player.playSound(location, Sound.ENTITY_SPLASH_POTION_BREAK, 1.0F, 1.0F);
 		} else if(type == SpellType.SOLAR_GLOW) {
-			ArrayList<Entity> nearbyMonsters = getNearbyMonsters(player, 15, 15);
+			ArrayList<Entity> nearbyMonsters = getNearbyMonsters(player, 15.0D, 15);
 			if(nearbyMonsters.isEmpty()) {
 				player.sendActionBar(Spell.spellLogo + Util.getColMsg("&cError : There are no monster near."));
 				return;
 			}
-			player.playSound(location, Sound.ENTITY_LIGHTNING_BOLT_THUNDER, 3, 1);
+			player.playSound(location, Sound.ENTITY_LIGHTNING_BOLT_THUNDER, 3.0F, 1.0F);
 			for(int i = 0; i < 2; i++) {
 				BukkitRunnable runnable;
 				runnable = new BukkitRunnable() {
@@ -92,6 +92,7 @@ public class CastSpellEvent implements Listener {
 					public void run() {
 						for (Entity loopMonster : nearbyMonsters) {
 							player.getWorld().strikeLightningEffect(loopMonster.getLocation());
+							player.damage(5.0D, loopMonster);
 						}
 					}
 				};
