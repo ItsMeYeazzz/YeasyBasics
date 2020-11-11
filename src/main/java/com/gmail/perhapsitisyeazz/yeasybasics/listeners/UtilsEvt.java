@@ -8,7 +8,6 @@ import com.gmail.perhapsitisyeazz.yeasybasics.util.Message;
 import com.gmail.perhapsitisyeazz.yeasybasics.util.Util;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -20,7 +19,6 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
 public class UtilsEvt implements Listener {
 
@@ -72,11 +70,7 @@ public class UtilsEvt implements Listener {
     @EventHandler
     private void onPlaceSpell(BlockPlaceEvent event) {
         ItemStack item = event.getItemInHand();
-        if(item.getType() == Material.PLAYER_HEAD) {
-            ItemMeta meta = item.getItemMeta();
-            if(meta.hasDisplayName() && meta.hasLore()) {
-                event.setCancelled(true);
-            }
-        }
+        if(SpellManager.isSpell(item))
+            event.setCancelled(true);
     }
 }
