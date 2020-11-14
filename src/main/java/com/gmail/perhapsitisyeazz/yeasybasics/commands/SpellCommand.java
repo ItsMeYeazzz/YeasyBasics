@@ -1,7 +1,6 @@
 package com.gmail.perhapsitisyeazz.yeasybasics.commands;
 
 import com.gmail.perhapsitisyeazz.yeasybasics.spell.Spell;
-import com.gmail.perhapsitisyeazz.yeasybasics.spell.SpellItem;
 import com.gmail.perhapsitisyeazz.yeasybasics.spell.SpellManager;
 import com.gmail.perhapsitisyeazz.yeasybasics.spell.SpellType;
 import com.gmail.perhapsitisyeazz.yeasybasics.util.Util;
@@ -29,7 +28,6 @@ public class SpellCommand implements CommandExecutor, TabCompleter {
 			Player player = (Player) sender;
 			if(args.length > 0) {
 				ItemStack item = player.getInventory().getItemInMainHand();
-				player.sendMessage(item.toString());
 				if(args[0].equalsIgnoreCase("nbt")) {
 					if(!SpellManager.isSpell(item)) return true;
 					NBTItem nbtItem = new NBTItem(item);
@@ -52,9 +50,9 @@ public class SpellCommand implements CommandExecutor, TabCompleter {
 					} else
 						player.sendMessage(Spell.spellLogo + Util.getColMsg("&cError : You must enter an integer at argument 2."));
 				} else {
-					SpellItem newItem = new SpellItem(parseSpell(args[0]));
-					player.sendMessage(item.toString());
-					if (item.getType() == Material.AIR || SpellManager.isSpell(item))
+					ItemStack newItem = SpellManager.getSpellItem(parseSpell(args[0]));
+					player.sendMessage(newItem.toString());
+					if (item.getType() == Material.AIR)
 						player.getInventory().setItemInMainHand(newItem);
 					else
 						player.getInventory().addItem(newItem);
