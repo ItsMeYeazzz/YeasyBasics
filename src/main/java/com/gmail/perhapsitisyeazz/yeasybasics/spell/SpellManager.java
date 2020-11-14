@@ -28,48 +28,18 @@ public class SpellManager {
 
 	public static boolean isSpell(ItemStack item) {
 		ItemMeta meta = item.getItemMeta();
-		return meta.hasCustomModelData() && meta.getCustomModelData() == Spell.NBT_TAG && item.getType() == Material.PLAYER_HEAD;
-	}
-
-	public static ItemStack setSpellToItem(ItemStack item, Spell spell) {
-		ItemMeta meta = item.getItemMeta();
-		if(!meta.hasDisplayName())
-			meta.setDisplayName(spell.getName());
-		meta.setCustomModelData(Spell.NBT_TAG);
-		item.setItemMeta(meta);
-		NBTItem nbtItem = new NBTItem(item);
-		if(item.getType() == Material.PLAYER_HEAD)
-			setSkinNBT(nbtItem, spell.getSkinValue());
-		nbtItem.setString(Spell.TYPE_KEY, spell.getType().name());
-		nbtItem.setString(Spell.RARITY_KEY, spell.getRarity().name());
-		nbtItem.setInteger(Spell.LEVEL_KEY, spell.getLevel());
-		nbtItem.setInteger(Spell.MAX_LEVEL_KEY, spell.getMaxLevel());
-		nbtItem.setInteger(Spell.MANA_COST_KEY, spell.getManaCost());
-		nbtItem.applyNBT(item);
-		return item;
+		return item.getType() == Material.PLAYER_HEAD && meta.hasCustomModelData() && meta.getCustomModelData() == Spell.NBT_TAG;
 	}
 
 	public static void setLevelToItem(ItemStack item, int level) {
-		Spell spell = getSpellFromItem(item);
+		Spell spell = new Spell(item);
 		if(level > spell.getMaxLevel())
 			return;
+		//String str = spell.getName().split("Lvl. ")[0];
 		spell.setLevel(level);
 		NBTItem nbtItem = new NBTItem(item);
 		nbtItem.setInteger(Spell.LEVEL_KEY, level);
 		nbtItem.applyNBT(item);
-	}
-
-	public static Spell getSpellFromItem(ItemStack item) {
-		NBTItem nbtItem = new NBTItem(item);
-		String type = nbtItem.getString(Spell.TYPE_KEY), rarity = nbtItem.getString(Spell.RARITY_KEY);
-		int level = nbtItem.getInteger(Spell.LEVEL_KEY), maxLevel = nbtItem.getInteger(Spell.MAX_LEVEL_KEY), manaCost = nbtItem.getInteger(Spell.MANA_COST_KEY);
-		Spell spell = new Spell(SpellType.valueOf(type));
-		spell.setName(item.getItemMeta().getDisplayName());
-		spell.setRarity(Rarity.valueOf(rarity));
-		spell.setLevel(level);
-		spell.setMaxLevel(maxLevel);
-		spell.setManaCost(manaCost);
-		return spell;
 	}
 
 	public final Inventory spellMenu() {

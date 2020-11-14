@@ -1,6 +1,7 @@
 package com.gmail.perhapsitisyeazz.yeasybasics.spell;
 
 import com.gmail.perhapsitisyeazz.yeasybasics.util.Util;
+import de.tr7zw.nbtapi.NBTItem;
 import org.apache.commons.lang.Validate;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
@@ -27,9 +28,16 @@ public class Spell {
 		this.level = level;
 	}
 
-	public Spell(@NotNull ItemStack itemStack) {
-		Validate.isTrue(SpellManager.isSpell(itemStack), "ItemsStack must be a spell");
-		Spell spell = SpellManager.getSpellFromItem(itemStack);
+	public Spell(@NotNull ItemStack item) {
+		Validate.isTrue(SpellManager.isSpell(item), "ItemsStack must be a spell");
+		NBTItem nbtItem = new NBTItem(item);
+		String type = nbtItem.getString(Spell.TYPE_KEY), rarity = nbtItem.getString(Spell.RARITY_KEY);
+		int level = nbtItem.getInteger(Spell.LEVEL_KEY), maxLevel = nbtItem.getInteger(Spell.MAX_LEVEL_KEY), manaCost = nbtItem.getInteger(Spell.MANA_COST_KEY);
+		Spell spell = new Spell(SpellType.valueOf(type), level);
+		spell.setName(item.getItemMeta().getDisplayName());
+		spell.setRarity(Rarity.valueOf(rarity));
+		spell.setMaxLevel(maxLevel);
+		spell.setManaCost(manaCost);
 		this.type = spell.getType();
 		this.skinValue = spell.getSkinValue();
 		this.rarity = spell.getRarity();

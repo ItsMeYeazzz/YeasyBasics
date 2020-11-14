@@ -1,6 +1,7 @@
 package com.gmail.perhapsitisyeazz.yeasybasics.commands;
 
 import com.gmail.perhapsitisyeazz.yeasybasics.spell.Spell;
+import com.gmail.perhapsitisyeazz.yeasybasics.spell.SpellItem;
 import com.gmail.perhapsitisyeazz.yeasybasics.spell.SpellManager;
 import com.gmail.perhapsitisyeazz.yeasybasics.spell.SpellType;
 import com.gmail.perhapsitisyeazz.yeasybasics.util.Util;
@@ -28,12 +29,19 @@ public class SpellCommand implements CommandExecutor, TabCompleter {
 			Player player = (Player) sender;
 			if(args.length > 0) {
 				ItemStack item = player.getInventory().getItemInMainHand();
+				player.sendMessage(item.toString());
 				if(args[0].equalsIgnoreCase("nbt")) {
+					if(!SpellManager.isSpell(item)) return true;
 					NBTItem nbtItem = new NBTItem(item);
 					player.sendMessage(nbtItem.toString());
 				} else if(args[0].equalsIgnoreCase("menu"))
 					player.openInventory(SM.spellMenu());
-				else if(args[0].equalsIgnoreCase("setLevel")) {
+				else if(args[0].equalsIgnoreCase("level")) {
+					if(!SpellManager.isSpell(item)) return true;
+					Spell spell = new Spell(item);
+					player.sendMessage(spell.getName().split("Lvl. ")[0]);
+				} else if(args[0].equalsIgnoreCase("setLevel")) {
+					if(!SpellManager.isSpell(item)) return true;
 					if(args.length > 1) {
 						try {
 							int level = Integer.parseInt(args[1]);
@@ -44,8 +52,9 @@ public class SpellCommand implements CommandExecutor, TabCompleter {
 					} else
 						player.sendMessage(Spell.spellLogo + Util.getColMsg("&cError : You must enter an integer at argument 2."));
 				} else {
-					ItemStack newItem = SpellManager.setSpellToItem(item, parseSpell(args[0]));
-					if (item.getType() == Material.AIR)
+					SpellItem newItem = new SpellItem(parseSpell(args[0]));
+					player.sendMessage(item.toString());
+					if (item.getType() == Material.AIR || SpellManager.isSpell(item))
 						player.getInventory().setItemInMainHand(newItem);
 					else
 						player.getInventory().addItem(newItem);
@@ -58,7 +67,7 @@ public class SpellCommand implements CommandExecutor, TabCompleter {
 
 	@Override
 	public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-		if(args.length == 0) {
+		if(args.length == 1) {
 			ArrayList<String> arrayList = new ArrayList<>();
 			for (SpellType type : SpellType.values()) {
 				arrayList.add(type.name());
