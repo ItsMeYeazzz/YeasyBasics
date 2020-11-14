@@ -7,12 +7,12 @@ import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 public class Spell {
-	private String name;
 	private final SpellType type;
+	private String name;
 	private String skinValue;
-	private Rarity rarity;
-	private int level;
-	private int maxLevel;
+	private Rarity rarity = Rarity.COMMON;
+	private int level = 1;
+	private int maxLevel = 3;
 	private int manaCost;
 
 	public final static int NBT_TAG = 5;
@@ -29,7 +29,7 @@ public class Spell {
 	}
 
 	public Spell(@NotNull ItemStack item) {
-		Validate.isTrue(SpellManager.isSpell(item), "ItemsStack must be a spell");
+		Validate.isTrue(SpellManager.isSpell(item), "ItemStack must be a spell");
 		NBTItem nbtItem = new NBTItem(item);
 		String type = nbtItem.getString(Spell.TYPE_KEY), rarity = nbtItem.getString(Spell.RARITY_KEY);
 		int level = nbtItem.getInteger(Spell.LEVEL_KEY), maxLevel = nbtItem.getInteger(Spell.MAX_LEVEL_KEY), manaCost = nbtItem.getInteger(Spell.MANA_COST_KEY);
@@ -39,6 +39,7 @@ public class Spell {
 		spell.setMaxLevel(maxLevel);
 		spell.setManaCost(manaCost);
 		this.type = spell.getType();
+		this.name = spell.getName();
 		this.skinValue = spell.getSkinValue();
 		this.rarity = spell.getRarity();
 		this.level = spell.getLevel();
@@ -46,18 +47,18 @@ public class Spell {
 		this.manaCost = spell.getManaCost();
 	}
 
-	public void setName(@NotNull String name) {
-		this.name = name;
+	@NotNull
+	public SpellType getType() {
+		return this.type;
+	}
+
+	public void setName(String name) {
+		this.name = name + " &3[&bLvl. "+this.level+"&3]";
 	}
 
 	@NotNull
 	public String getName() {
-		return (this.name != null ? this.name : this.type.toString());
-	}
-
-	@NotNull
-	public SpellType getType() {
-		return this.type;
+		return (this.name != null ? this.name : this.type.toString() + " | " + this.level);
 	}
 
 	public void setSkinValue(String id) {
@@ -75,15 +76,16 @@ public class Spell {
 
 	@NotNull
 	public Rarity getRarity() {
-		return (this.rarity != null ? this.rarity : Rarity.COMMON);
+		return this.rarity;
 	}
 
 	public void setLevel(int level) {
+		if(level < 0) return;
 		this.level = level;
 	}
 
 	public int getLevel() {
-		return (this.level > 0 ? this.level : 1);
+		return this.level;
 	}
 
 	public void setMaxLevel(int maxLevel) {

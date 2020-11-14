@@ -32,7 +32,7 @@ public class Util {
 
 	public static ItemStack createGuiItem(ItemStack item, String name, final String... lore) {
 		ItemMeta meta = item.getItemMeta();
-		meta.setDisplayName(name);
+		meta.setDisplayName(getColMsg(name));
 		meta.setLore(Arrays.asList(lore));
 		item.setItemMeta(meta);
 		return item;

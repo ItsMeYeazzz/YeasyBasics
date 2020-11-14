@@ -50,11 +50,15 @@ public class SpellCommand implements CommandExecutor, TabCompleter {
 					} else
 						player.sendMessage(Spell.spellLogo + Util.getColMsg("&cError : You must enter an integer at argument 2."));
 				} else {
-					ItemStack newItem = SpellManager.getSpellItem(parseSpell(args[0]));
-					player.sendMessage(newItem.toString());
-					if (item.getType() == Material.AIR)
+					Spell parsedSpell = parseSpell(args[0]);
+					ItemStack newItem = SpellManager.getSpellItem(parsedSpell);
+					if(item.getType() == Material.AIR)
 						player.getInventory().setItemInMainHand(newItem);
-					else
+					else if(SpellManager.isSpell(item)) {
+						Spell spell = new Spell(item);
+						if(spell.getType() == parsedSpell.getType())
+							player.getInventory().setItemInMainHand(newItem);
+					} else
 						player.getInventory().addItem(newItem);
 				}
 			} else
