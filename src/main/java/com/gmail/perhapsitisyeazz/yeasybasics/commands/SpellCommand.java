@@ -37,7 +37,10 @@ public class SpellCommand implements CommandExecutor, TabCompleter {
 				else if(args[0].equalsIgnoreCase("level")) {
 					if(!SpellManager.isSpell(item)) return true;
 					Spell spell = new Spell(item);
-					player.sendMessage(spell.getName().split("Lvl. ")[0]);
+					String[] tests = spell.getName().split("([a-zA-Z]+.*)\\[");
+					for(String s : tests) {
+						player.sendMessage(s);
+					}
 				} else if(args[0].equalsIgnoreCase("setLevel")) {
 					if(!SpellManager.isSpell(item)) return true;
 					if(args.length > 1) {

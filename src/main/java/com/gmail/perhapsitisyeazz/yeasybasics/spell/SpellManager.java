@@ -74,6 +74,13 @@ public class SpellManager {
 		return inv;
 	}
 
+	public static String getSkinValue(NBTItem nbtItem) {
+		NBTCompound skull = nbtItem.getCompound("SkullOwner");
+		skull.setString("Id", "fce0323d-7f50-4317-9720-5f6b14cf78ea");
+		NBTListCompound texture = skull.getCompound("Properties").getCompoundList("textures").addCompound();
+		return texture.getString("Value");
+	}
+
 	protected static void setSkinNBT(NBTItem nbtItem, String skinValue) {
 		NBTCompound skull = nbtItem.addCompound("SkullOwner");
 		skull.setString("Id", "fce0323d-7f50-4317-9720-5f6b14cf78ea");

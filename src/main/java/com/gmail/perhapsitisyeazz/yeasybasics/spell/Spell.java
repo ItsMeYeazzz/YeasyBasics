@@ -33,18 +33,13 @@ public class Spell {
 		NBTItem nbtItem = new NBTItem(item);
 		String type = nbtItem.getString(Spell.TYPE_KEY), rarity = nbtItem.getString(Spell.RARITY_KEY);
 		int level = nbtItem.getInteger(Spell.LEVEL_KEY), maxLevel = nbtItem.getInteger(Spell.MAX_LEVEL_KEY), manaCost = nbtItem.getInteger(Spell.MANA_COST_KEY);
-		Spell spell = new Spell(SpellType.valueOf(type), level);
-		spell.setName(item.getItemMeta().getDisplayName());
-		spell.setRarity(Rarity.valueOf(rarity));
-		spell.setMaxLevel(maxLevel);
-		spell.setManaCost(manaCost);
-		this.type = spell.getType();
-		this.name = spell.getName();
-		this.skinValue = spell.getSkinValue();
-		this.rarity = spell.getRarity();
-		this.level = spell.getLevel();
-		this.maxLevel = spell.getMaxLevel();
-		this.manaCost = spell.getManaCost();
+		this.type = SpellType.valueOf(type);
+		this.name = item.getItemMeta().getDisplayName();
+		this.skinValue = SpellManager.getSkinValue(nbtItem);
+		this.rarity = Rarity.valueOf(rarity);
+		this.level = level;
+		this.maxLevel = maxLevel;
+		this.manaCost = manaCost;
 	}
 
 	@NotNull
