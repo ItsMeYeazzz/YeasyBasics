@@ -9,13 +9,18 @@ import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
+import org.bukkit.util.StringUtil;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
-public class TimeCmd implements CommandExecutor {
+public class TimeCmd implements CommandExecutor, TabCompleter {
 
 	private final Message message = new Message();
 
@@ -107,6 +112,23 @@ public class TimeCmd implements CommandExecutor {
 			}
 		}
 		return true;
+	}
+
+	@Override
+	public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+		final List<String> completions = new ArrayList<>();
+		final ArrayList<String> commands = new ArrayList<>();
+		if(args.length == 1) {
+			Collections.addAll(message.timeSubCmd);
+			StringUtil.copyPartialMatches(args[0], commands, completions);
+		} else if(args.length == 2) {
+			if(args[0].equalsIgnoreCase("set")) {
+				Collections.addAll(timeNames);
+				StringUtil.copyPartialMatches(args[1], commands, completions);
+			}
+		}
+		Collections.sort(completions);
+		return completions;
 	}
 
 	private void updateTime(World world, long time, String arg, CommandSender sender) {

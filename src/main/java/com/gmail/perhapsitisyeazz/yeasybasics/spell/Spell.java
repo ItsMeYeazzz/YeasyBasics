@@ -8,7 +8,6 @@ import org.jetbrains.annotations.NotNull;
 
 public class Spell {
 	private final SpellType type;
-	private String name;
 	private String skinValue;
 	private Rarity rarity = Rarity.COMMON;
 	private int level = 1;
@@ -34,7 +33,6 @@ public class Spell {
 		String type = nbtItem.getString(Spell.TYPE_KEY), rarity = nbtItem.getString(Spell.RARITY_KEY);
 		int level = nbtItem.getInteger(Spell.LEVEL_KEY), maxLevel = nbtItem.getInteger(Spell.MAX_LEVEL_KEY), manaCost = nbtItem.getInteger(Spell.MANA_COST_KEY);
 		this.type = SpellType.valueOf(type);
-		this.name = item.getItemMeta().getDisplayName();
 		this.skinValue = SpellManager.getSkinValue(nbtItem);
 		this.rarity = Rarity.valueOf(rarity);
 		this.level = level;
@@ -47,13 +45,9 @@ public class Spell {
 		return this.type;
 	}
 
-	public void setName(String name) {
-		this.name = name + " &3[&bLvl. "+this.level+"&3]";
-	}
-
 	@NotNull
 	public String getName() {
-		return (this.name != null ? this.name : this.type.toString() + " | " + this.level);
+		return this.type.color+" "+this.type.toString()+" &3[&bLvl. "+this.level+"&3]";
 	}
 
 	public void setSkinValue(String id) {

@@ -7,13 +7,19 @@ import org.bukkit.GameMode;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
+import org.bukkit.util.StringUtil;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-public class GamemodeCmd implements CommandExecutor {
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+public class GamemodeCmd implements CommandExecutor, TabCompleter {
 
     private final Message message = new Message();
-
     private final String logo = Message.logo;
 
     @Override
@@ -48,6 +54,17 @@ public class GamemodeCmd implements CommandExecutor {
         }
         sender.sendMessage(message.gmHelpMessage());
         return true;
+    }
+
+    @Override
+    public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+        final List<String> completions = new ArrayList<>();
+        final ArrayList<String> commands = new ArrayList<>(message.gmSubCmd);
+        if(args.length == 1) {
+            StringUtil.copyPartialMatches(args[0], commands, completions);
+        }
+        Collections.sort(completions);
+        return completions;
     }
 
     private void setGamemode(GameMode gm, CommandSender sender, Player target) {

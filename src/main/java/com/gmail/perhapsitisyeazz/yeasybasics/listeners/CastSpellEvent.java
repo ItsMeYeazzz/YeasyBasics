@@ -92,7 +92,7 @@ public class CastSpellEvent implements Listener {
 					public void run() {
 						for (Monster loopMonster : nearbyMonsters) {
 							player.getWorld().strikeLightningEffect(loopMonster.getLocation());
-							loopMonster.damage(13.0D, player);
+							loopMonster.damage(13.0D*spell.getLevel(), player);
 						}
 					}
 				};

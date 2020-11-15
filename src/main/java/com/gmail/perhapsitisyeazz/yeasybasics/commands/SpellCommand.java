@@ -12,10 +12,12 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.util.StringUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class SpellCommand implements CommandExecutor, TabCompleter {
@@ -34,14 +36,7 @@ public class SpellCommand implements CommandExecutor, TabCompleter {
 					player.sendMessage(nbtItem.toString());
 				} else if(args[0].equalsIgnoreCase("menu"))
 					player.openInventory(SM.spellMenu());
-				else if(args[0].equalsIgnoreCase("level")) {
-					if(!SpellManager.isSpell(item)) return true;
-					Spell spell = new Spell(item);
-					String[] tests = spell.getName().split("([a-zA-Z]+.*)\\[");
-					for(String s : tests) {
-						player.sendMessage(s);
-					}
-				} else if(args[0].equalsIgnoreCase("setLevel")) {
+				else if(args[0].equalsIgnoreCase("setLevel")) {
 					if(!SpellManager.isSpell(item)) return true;
 					if(args.length > 1) {
 						try {
@@ -72,13 +67,16 @@ public class SpellCommand implements CommandExecutor, TabCompleter {
 
 	@Override
 	public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+		final List<String> completions = new ArrayList<>();
+		final ArrayList<String> commands = new ArrayList<>();
 		if(args.length == 1) {
-			ArrayList<String> arrayList = new ArrayList<>();
-			for (SpellType type : SpellType.values()) {
-				arrayList.add(type.name());
+			for(SpellType type : SpellType.values()) {
+				commands.add(type.name());
 			}
-			return arrayList;
-		} else return null;
+			StringUtil.copyPartialMatches(args[0], commands, completions);
+		}
+		Collections.sort(completions);
+		return completions;
 	}
 
 	private Spell parseSpell(String spell) {

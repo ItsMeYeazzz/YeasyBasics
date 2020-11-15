@@ -11,7 +11,7 @@ public class Message {
 
     public static final String logo = Util.getColMsg("&8[&3Basics&8] ");
 
-    private final List<String> gmSubCmd = Arrays.asList("survival", "creative", "adventure", "spectator");
+    public final List<String> gmSubCmd = Arrays.asList("survival", "creative", "adventure", "spectator");
     private final List<String> gmAliasCmd = Arrays.asList("s, 0", "c, 1", "a, 2", "s, 3");
     private final List<String> gmDescCmd = Arrays.asList(
             "Set the gamemode of a player to Survival",
@@ -19,7 +19,7 @@ public class Message {
             "Set the gamemode of a player to Adventure",
             "Set the gamemode of a player to Spectator"
     );
-    private final List<String> timeSubCmd = Arrays.asList("set", "add", "remove");
+    public final List<String> timeSubCmd = Arrays.asList("set", "add", "remove");
     private final List<String> timeDescCmd = Arrays.asList(
             "Set the time of a world",
             "Add ticks to a time of a world",
