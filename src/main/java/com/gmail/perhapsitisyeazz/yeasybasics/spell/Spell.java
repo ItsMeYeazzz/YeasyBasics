@@ -47,7 +47,7 @@ public class Spell {
 
 	@NotNull
 	public String getName() {
-		return this.type.color+" "+this.type.toString()+" &3[&bLvl. "+this.level+"&3]";
+		return this.type.color+this.type.toString()+" &3[&bLvl. "+this.level+"&3]";
 	}
 
 	public void setSkinValue(String id) {
