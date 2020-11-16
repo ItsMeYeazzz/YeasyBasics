@@ -8,6 +8,7 @@ import com.gmail.perhapsitisyeazz.yeasybasics.spell.SpellType;
 import com.gmail.perhapsitisyeazz.yeasybasics.util.Util;
 import org.bukkit.Location;
 import org.bukkit.Sound;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Monster;
 import org.bukkit.entity.Player;
@@ -98,7 +99,52 @@ public class CastSpellEvent implements Listener {
 				};
 				runnable.runTaskLater(instance, 30 + i*5);
 			}
+		} else if(type == SpellType.FLASH) {
+			int duration = level * 5 * 20;
+			int amplifier = level - 1;
+			PotionEffect effect = new PotionEffect(PotionEffectType.SPEED, duration, amplifier, false, false, false);
+			player.addPotionEffect(effect);
+			player.playSound(location, Sound.ITEM_FIRECHARGE_USE, 1, 1);
+		} else if(type == SpellType.NOCTURNAL_HYMN) {
+			int duration = level^2 * 60 * 20;
+			int amplifier = level - 1;
+			PotionEffect effect = new PotionEffect(PotionEffectType.SPEED, duration, amplifier, false, false, false);
+			player.addPotionEffect(effect);
+			player.playSound(location, Sound.ENTITY_PARROT_AMBIENT, 1, 1);
+		} else if(type == SpellType.LEVITATION) {
+			ArrayList<Monster> nearbyMonsters = getNearbyMonsters(player, 5.0D);
+			if(nearbyMonsters.isEmpty()) {
+				player.sendActionBar(Spell.spellLogo + Util.getColMsg("&cError : There are no monster near."));
+				return;
+			}
+			player.playSound(location, Sound.ITEM_TRIDENT_RETURN, 1, 1);
+			for (Monster loopMonster : nearbyMonsters) {
+				loopMonster.setVelocity(location.getDirection().multiply(2));
+			}
+			for(int i = 0; i < 3; i++) {
+				int finalI = i;
+				int delay = i == 0 ? 10 : (i == 1 ? 26 : 4);
+				BukkitRunnable runnable;
+				runnable = new BukkitRunnable() {
+					@Override
+					public void run() {
+						for (Monster loopMonster : nearbyMonsters)
+							levitation(loopMonster, finalI);
+					}
+				};
+				runnable.runTaskLater(instance, delay);
+			}
 		}
+	}
+
+	private void levitation(Monster monster, int i) {
+		if(i == 0)
+			monster.setVelocity(BlockFace.NORTH.getDirection().multiply(2));
+		else if (i == 1){
+			PotionEffect effect = new PotionEffect(PotionEffectType.SPEED, 26, 0, false, false, false);
+			monster.addPotionEffect(effect);
+		} else
+			monster.setVelocity(BlockFace.SOUTH.getDirection().multiply(2));
 	}
 
 	public ArrayList<Monster> getNearbyMonsters(Player player, double range) {
