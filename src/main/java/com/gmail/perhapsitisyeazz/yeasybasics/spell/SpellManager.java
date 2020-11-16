@@ -52,10 +52,10 @@ public class SpellManager {
 		Spell spell = new Spell(item);
 		if(level > spell.getMaxLevel())
 			return;
+		spell.setLevel(level);
 		ItemMeta meta = item.getItemMeta();
 		meta.setDisplayName(Util.getColMsg(spell.getName()));
 		item.setItemMeta(meta);
-		spell.setLevel(level);
 		NBTItem nbtItem = new NBTItem(item);
 		nbtItem.setInteger(Spell.LEVEL_KEY, level);
 		nbtItem.applyNBT(item);

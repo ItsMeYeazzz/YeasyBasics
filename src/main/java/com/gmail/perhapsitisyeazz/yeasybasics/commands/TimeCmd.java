@@ -119,11 +119,11 @@ public class TimeCmd implements CommandExecutor, TabCompleter {
 		final List<String> completions = new ArrayList<>();
 		final ArrayList<String> commands = new ArrayList<>();
 		if(args.length == 1) {
-			Collections.addAll(message.timeSubCmd);
+			commands.addAll(message.timeSubCmd);
 			StringUtil.copyPartialMatches(args[0], commands, completions);
 		} else if(args.length == 2) {
 			if(args[0].equalsIgnoreCase("set")) {
-				Collections.addAll(timeNames);
+				commands.addAll(timeNames);
 				StringUtil.copyPartialMatches(args[1], commands, completions);
 			}
 		}
