@@ -14,6 +14,7 @@ import org.bukkit.entity.Monster;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -28,6 +29,8 @@ public class CastSpellEvent implements Listener {
 	}
 
 	private final SpellManager SM = new SpellManager();
+
+	private final String levMetaData = SpellType.LEVITATION.name();
 
 	@EventHandler
 	private void onCastSpell(SpellCastEvent event) {
@@ -72,6 +75,7 @@ public class CastSpellEvent implements Listener {
 			}
 		} else if(type == SpellType.VITAL_DISCHARGE) {
 			ArrayList<Player> nearbyPlayers = getNearbyPlayers(player, 8.0D, 12);
+			nearbyPlayers.add(player);
 			int size = nearbyPlayers.size();
 			for(Player loopPlayer : nearbyPlayers) {
 				loopPlayer.sendActionBar(Util.getColMsg("&2You have been heal by &b" + player.getName()));
@@ -104,32 +108,33 @@ public class CastSpellEvent implements Listener {
 			int amplifier = level - 1;
 			PotionEffect effect = new PotionEffect(PotionEffectType.SPEED, duration, amplifier, false, false, false);
 			player.addPotionEffect(effect);
-			player.playSound(location, Sound.ITEM_FIRECHARGE_USE, 1, 1);
+			player.playSound(location, Sound.ITEM_FIRECHARGE_USE, 1.0F, 1.0F);
 		} else if(type == SpellType.NOCTURNAL_HYMN) {
 			int duration = level^2 * 60 * 20;
 			int amplifier = level - 1;
 			PotionEffect effect = new PotionEffect(PotionEffectType.SPEED, duration, amplifier, false, false, false);
 			player.addPotionEffect(effect);
-			player.playSound(location, Sound.ENTITY_PARROT_AMBIENT, 1, 1);
+			player.playSound(location, Sound.ENTITY_PARROT_AMBIENT, 1.0F, 1.0F);
 		} else if(type == SpellType.LEVITATION) {
 			ArrayList<Monster> nearbyMonsters = getNearbyMonsters(player, 5.0D);
 			if(nearbyMonsters.isEmpty()) {
 				player.sendActionBar(Spell.spellLogo + Util.getColMsg("&cError : There are no monster near."));
 				return;
 			}
-			player.playSound(location, Sound.ITEM_TRIDENT_RETURN, 1, 1);
-			for (Monster loopMonster : nearbyMonsters) {
-				loopMonster.setVelocity(location.getDirection().multiply(2));
+			player.playSound(location, Sound.ITEM_TRIDENT_RETURN, 1.0F, 1.0F);
+			for (Monster monster : nearbyMonsters) {
+				monster.setVelocity(BlockFace.UP.getDirection().multiply(1.7));
+				monster.setMetadata(levMetaData, new FixedMetadataValue(instance, true));
 			}
-			for(int i = 0; i < 3; i++) {
+			for(int i = 0; i < 4; i++) {
 				int finalI = i;
-				int delay = i == 0 ? 10 : (i == 1 ? 26 : 4);
+				int delay = i == 0 ? 10 : (i == 1 ? 36 : (i == 2 ? 40 : 50)); // wait 10, 26, 4 and 10 ticks
 				BukkitRunnable runnable;
 				runnable = new BukkitRunnable() {
 					@Override
 					public void run() {
-						for (Monster loopMonster : nearbyMonsters)
-							levitation(loopMonster, finalI);
+						for (Monster monster : nearbyMonsters)
+							levitation(instance, monster, finalI, player);
 					}
 				};
 				runnable.runTaskLater(instance, delay);
@@ -137,14 +142,17 @@ public class CastSpellEvent implements Listener {
 		}
 	}
 
-	private void levitation(Monster monster, int i) {
-		if(i == 0)
-			monster.setVelocity(BlockFace.NORTH.getDirection().multiply(2));
-		else if (i == 1){
-			PotionEffect effect = new PotionEffect(PotionEffectType.SPEED, 26, 0, false, false, false);
-			monster.addPotionEffect(effect);
-		} else
-			monster.setVelocity(BlockFace.SOUTH.getDirection().multiply(2));
+	private void levitation(YeasyBasics instance, Monster m, int i, Player p) {
+		if(i == 0) {
+			PotionEffect effect = new PotionEffect(PotionEffectType.LEVITATION, 26, 0, false, false, false);
+			m.addPotionEffect(effect);
+		} else if(i == 1)
+			m.setVelocity(BlockFace.DOWN.getDirection().multiply(8));
+		else if(i == 2) {
+			p.playSound(p.getLocation(), Sound.ITEM_TOTEM_USE, 0.5F, 1.0F);
+			m.damage(30, p);
+		} else if(m.hasMetadata(levMetaData))
+			m.removeMetadata(levMetaData, instance);
 	}
 
 	public ArrayList<Monster> getNearbyMonsters(Player player, double range) {

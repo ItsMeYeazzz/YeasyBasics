@@ -4,17 +4,21 @@ import com.gmail.perhapsitisyeazz.yeasybasics.YeasyBasics;
 import com.gmail.perhapsitisyeazz.yeasybasics.events.SpellCastEvent;
 import com.gmail.perhapsitisyeazz.yeasybasics.spell.Spell;
 import com.gmail.perhapsitisyeazz.yeasybasics.spell.SpellManager;
+import com.gmail.perhapsitisyeazz.yeasybasics.spell.SpellType;
 import com.gmail.perhapsitisyeazz.yeasybasics.util.Message;
 import com.gmail.perhapsitisyeazz.yeasybasics.util.Util;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
-import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.ExperienceOrb;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntitySpawnEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -77,8 +81,21 @@ public class UtilsEvt implements Listener {
     }
 
     @EventHandler
-    private void onXpSpawn(EntitySpawnEvent event) {
-	    if(event.getEntity().getType() == EntityType.EXPERIENCE_ORB)
+    private void onFallWithLevitation(EntityDamageEvent event) {
+	    Entity entity = event.getEntity();
+	    EntityDamageEvent.DamageCause cause = event.getCause();
+	    if(cause == EntityDamageEvent.DamageCause.FALL && entity.hasMetadata(SpellType.LEVITATION.name()))
 	        event.setCancelled(true);
+    }
+
+    @EventHandler
+    private void onXpSpawn(EntitySpawnEvent event) {
+	    if(event.getEntity() instanceof ExperienceOrb)
+	        event.setCancelled(true);
+    }
+
+    @EventHandler
+    private void onEntityDeath(EntityDeathEvent event) {
+	    event.setDroppedExp(0);
     }
 }
