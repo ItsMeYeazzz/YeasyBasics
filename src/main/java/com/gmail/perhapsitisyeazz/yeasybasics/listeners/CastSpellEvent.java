@@ -30,7 +30,7 @@ public class CastSpellEvent implements Listener {
 
 	private final SpellManager SM = new SpellManager();
 
-	private final String levMetaData = SpellType.LEVITATION.name();
+	private final String levMD = SpellType.LEVITATION.name();
 
 	@EventHandler
 	private void onCastSpell(SpellCastEvent event) {
@@ -56,9 +56,18 @@ public class CastSpellEvent implements Listener {
 			player.addPotionEffect(effect);
 			player.playSound(location, Sound.ENTITY_ENDER_DRAGON_GROWL, 1.0F, 1.0F);
 		} else if(type == SpellType.ROYAL_DINNER) {
-			for(Player loopPlayer : getNearbyPlayers(player, 8)) {
+			ArrayList<Player> nearbyPlayers = getNearbyPlayers(player, true, 8);
+			boolean b = true;
+			for (Player pl : nearbyPlayers)
+				if(pl.getFoodLevel() < 20)
+					b=false;
+			if(b) {
+				player.sendActionBar(Spell.spellLogo + Util.getColMsg("&cError : Everybody is fed near."));
+				return;
+			}
+			for(Player loopPlayer : nearbyPlayers) {
 				loopPlayer.sendActionBar(Util.getColMsg("&2You have been feed by &b" + player.getName()));
-				int food = loopPlayer.getFoodLevel() + 5 * (level + 1);
+				int food = Math.max(20, loopPlayer.getFoodLevel() + 5 * (level + 1));
 				loopPlayer.setFoodLevel(food);
 				if(level == spell.getMaxLevel())
 					loopPlayer.setSaturation(food);
@@ -74,12 +83,20 @@ public class CastSpellEvent implements Listener {
 				}
 			}
 		} else if(type == SpellType.VITAL_DISCHARGE) {
-			ArrayList<Player> nearbyPlayers = getNearbyPlayers(player, 8.0D, 12);
-			nearbyPlayers.add(player);
+			ArrayList<Player> nearbyPlayers = getNearbyPlayers(player, true, 8.0D, 12);
+			boolean b = true;
+			for (Player pl : nearbyPlayers)
+				if(pl.getHealth() < 20.0D)
+					b=false;
+			if(b) {
+				player.sendActionBar(Spell.spellLogo + Util.getColMsg("&cError : Everybody is full life near."));
+				return;
+			}
 			int size = nearbyPlayers.size();
 			for(Player loopPlayer : nearbyPlayers) {
+				if(loopPlayer.getHealth() == 20.0D) continue;
 				loopPlayer.sendActionBar(Util.getColMsg("&2You have been heal by &b" + player.getName()));
-				double health = loopPlayer.getHealth() + 5 * level * (1 - (size > 2 ? (size-2)/10.0F : 0));
+				double health = Math.max(20, loopPlayer.getHealth() + 5 * level * (1 - (size > 2 ? (size-2)/10.0F : 0)));
 				loopPlayer.setHealth(health);
 			}
 			player.playSound(location, Sound.ENTITY_SPLASH_POTION_BREAK, 1.0F, 1.0F);
@@ -124,7 +141,7 @@ public class CastSpellEvent implements Listener {
 			player.playSound(location, Sound.ITEM_TRIDENT_RETURN, 1.0F, 1.0F);
 			for (Monster monster : nearbyMonsters) {
 				monster.setVelocity(BlockFace.UP.getDirection().multiply(1.7));
-				monster.setMetadata(levMetaData, new FixedMetadataValue(instance, true));
+				monster.setMetadata(levMD, new FixedMetadataValue(instance, true));
 			}
 			for(int i = 0; i < 4; i++) {
 				int finalI = i;
@@ -147,12 +164,12 @@ public class CastSpellEvent implements Listener {
 			PotionEffect effect = new PotionEffect(PotionEffectType.LEVITATION, 26, 0, false, false, false);
 			m.addPotionEffect(effect);
 		} else if(i == 1)
-			m.setVelocity(BlockFace.DOWN.getDirection().multiply(8));
+			m.setVelocity(BlockFace.DOWN.getDirection().multiply(50));
 		else if(i == 2) {
 			p.playSound(p.getLocation(), Sound.ITEM_TOTEM_USE, 0.5F, 1.0F);
 			m.damage(30, p);
-		} else if(m.hasMetadata(levMetaData))
-			m.removeMetadata(levMetaData, instance);
+		} else if(m.hasMetadata(levMD))
+			m.removeMetadata(levMD, instance);
 	}
 
 	public ArrayList<Monster> getNearbyMonsters(Player player, double range) {
@@ -177,8 +194,10 @@ public class CastSpellEvent implements Listener {
 		return nearby;
 	}
 
-	public ArrayList<Player> getNearbyPlayers(Player player, double range) {
+	public ArrayList<Player> getNearbyPlayers(Player player, boolean included, double range) {
 		ArrayList<Player> nearby = new ArrayList<>();
+		if(included)
+			nearby.add(player);
 		for(Entity e : player.getNearbyEntities(range, range, range)) {
 			if(e instanceof Player)
 				nearby.add((Player) e);
@@ -186,8 +205,10 @@ public class CastSpellEvent implements Listener {
 		return nearby;
 	}
 
-	public ArrayList<Player> getNearbyPlayers(Player player, double range, int limit) {
+	public ArrayList<Player> getNearbyPlayers(Player player, boolean included, double range, int limit) {
 		ArrayList<Player> nearby = new ArrayList<>();
+		if(included)
+			nearby.add(player);
 		for(Entity e : player.getNearbyEntities(range, range, range)){
 			if(e instanceof Player){
 				if(nearby.size() < limit)
